@@ -18,7 +18,11 @@
           "relative_path": "docs/EcommerceApp.Api.Controllers.CartController.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Controllers.CartController",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -28,7 +32,11 @@
           "relative_path": "docs/EcommerceApp.Api.Controllers.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Controllers",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -38,7 +46,11 @@
           "relative_path": "docs/EcommerceApp.Api.Models.IAddressInfo.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Models.IAddressInfo",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -48,7 +60,11 @@
           "relative_path": "docs/EcommerceApp.Api.Models.ICard.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Models.ICard",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -58,7 +74,11 @@
           "relative_path": "docs/EcommerceApp.Api.Models.ICartItem.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Models.ICartItem",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -68,7 +88,11 @@
           "relative_path": "docs/EcommerceApp.Api.Models.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Models",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -78,7 +102,11 @@
           "relative_path": "docs/EcommerceApp.Api.Services.ICartService.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Services.ICartService",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -88,7 +116,11 @@
           "relative_path": "docs/EcommerceApp.Api.Services.IDiscountService.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Services.IDiscountService",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -98,7 +130,11 @@
           "relative_path": "docs/EcommerceApp.Api.Services.IPaymentService.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Services.IPaymentService",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -108,7 +144,11 @@
           "relative_path": "docs/EcommerceApp.Api.Services.IShipmentService.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Services.IShipmentService",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -118,7 +158,11 @@
           "relative_path": "docs/EcommerceApp.Api.Services.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Api.Services",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -128,7 +172,11 @@
           "relative_path": "docs/EcommerceApp.Tests.CartControllerTests.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Tests.CartControllerTests",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -138,7 +186,11 @@
           "relative_path": "docs/EcommerceApp.Tests.Tests.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Tests.Tests",
+      "Summary": null
     },
     {
       "type": "ManagedReference",
@@ -148,7 +200,11 @@
           "relative_path": "docs/EcommerceApp.Tests.html"
         }
       },
-      "version": ""
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "EcommerceApp.Tests",
+      "Summary": null
     },
     {
       "type": "Conceptual",
