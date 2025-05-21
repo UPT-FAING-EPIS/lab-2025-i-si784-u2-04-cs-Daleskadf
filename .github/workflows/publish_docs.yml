@@ -1,0 +1,53 @@
+name: Publicar Doc con docfx # <--- Nombre de este workflow
+
+on:
+  workflow_run:
+    workflows: ["Publish Coverage Report"] # <--- USA EL 'name:' DEL WORKFLOW ANTERIOR
+    types:
+      - completed
+    # branches: # Opcional: si quieres que solo se dispare si el workflow de cobertura se ejecutó en 'main'
+    #   - main
+
+jobs:
+  docfx_and_publish: # Cambiado el nombre del job para claridad
+    runs-on: ubuntu-latest
+    # Solo se ejecuta si el workflow de cobertura tuvo éxito
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4 # Actualizado a v4, y necesario para obtener el código para DocFx
+      with:
+        # Necesitamos el código del commit que disparó el workflow de cobertura
+        ref: ${{ github.event.workflow_run.head_sha }}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install DocFx globally
+      run: dotnet tool update -g docfx --version 2.75.2
+
+    - name: Add .NET tools to PATH (if not already picked up)
+      run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+    - name: Generate metadata for DocFx
+      run: docfx metadata EcommerceApp/docfx.json
+
+    - name: Build DocFx Site
+      run: docfx build EcommerceApp/docfx.json # Genera en EcommerceApp/_site
+
+    - name: Publish DocFx site to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: EcommerceApp/_site
+        publish_branch: gh-pages
+        # destination_dir: . # Publica en la raíz, es el comportamiento por defecto
+        keep_files: true # Mantiene el informe de cobertura que ya está en gh-pages/cobertura/
+        allow_empty_commit: false
+        force_orphan: false # NO borra, ya que estamos añadiendo/actualizando
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        enable_jekyll: false
+        disable_nojekyll: false

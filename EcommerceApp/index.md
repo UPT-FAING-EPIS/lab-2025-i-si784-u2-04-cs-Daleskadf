@@ -4,7 +4,7 @@ _layout: landing
 
 # This is the **EcommerceApp** homepage.
 
-## [Cobertura](Cobertura/index.html)
+## [Cobertura](cobertura/index.html)
 
 ## [Models](docs/EcommerceApp.Api.Models.html)
 
