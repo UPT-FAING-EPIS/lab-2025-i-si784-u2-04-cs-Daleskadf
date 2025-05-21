@@ -1,0 +1,235 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Services.IShipmentService
+  commentId: T:EcommerceApp.Api.Services.IShipmentService
+  id: IShipmentService
+  parent: EcommerceApp.Api.Services
+  children:
+  - EcommerceApp.Api.Services.IShipmentService.Ship(EcommerceApp.Api.Models.IAddressInfo,System.Collections.Generic.IEnumerable{EcommerceApp.Api.Models.ICartItem})
+  langs:
+  - csharp
+  - vb
+  name: IShipmentService
+  nameWithType: IShipmentService
+  fullName: EcommerceApp.Api.Services.IShipmentService
+  type: Interface
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Services/IShipmentService.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: IShipmentService
+    path: EcommerceApp.Api/Services/IShipmentService.cs
+    startLine: 2
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Services
+  syntax:
+    content: public interface IShipmentService
+    content.vb: Public Interface IShipmentService
+- uid: EcommerceApp.Api.Services.IShipmentService.Ship(EcommerceApp.Api.Models.IAddressInfo,System.Collections.Generic.IEnumerable{EcommerceApp.Api.Models.ICartItem})
+  commentId: M:EcommerceApp.Api.Services.IShipmentService.Ship(EcommerceApp.Api.Models.IAddressInfo,System.Collections.Generic.IEnumerable{EcommerceApp.Api.Models.ICartItem})
+  id: Ship(EcommerceApp.Api.Models.IAddressInfo,System.Collections.Generic.IEnumerable{EcommerceApp.Api.Models.ICartItem})
+  parent: EcommerceApp.Api.Services.IShipmentService
+  langs:
+  - csharp
+  - vb
+  name: Ship(IAddressInfo, IEnumerable<ICartItem>)
+  nameWithType: IShipmentService.Ship(IAddressInfo, IEnumerable<ICartItem>)
+  fullName: EcommerceApp.Api.Services.IShipmentService.Ship(EcommerceApp.Api.Models.IAddressInfo, System.Collections.Generic.IEnumerable<EcommerceApp.Api.Models.ICartItem>)
+  type: Method
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Services/IShipmentService.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: Ship
+    path: EcommerceApp.Api/Services/IShipmentService.cs
+    startLine: 4
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Services
+  syntax:
+    content: void Ship(IAddressInfo info, IEnumerable<ICartItem> items)
+    parameters:
+    - id: info
+      type: EcommerceApp.Api.Models.IAddressInfo
+    - id: items
+      type: System.Collections.Generic.IEnumerable{EcommerceApp.Api.Models.ICartItem}
+    content.vb: Sub Ship(info As IAddressInfo, items As IEnumerable(Of ICartItem))
+  overload: EcommerceApp.Api.Services.IShipmentService.Ship*
+  nameWithType.vb: IShipmentService.Ship(IAddressInfo, IEnumerable(Of ICartItem))
+  fullName.vb: EcommerceApp.Api.Services.IShipmentService.Ship(EcommerceApp.Api.Models.IAddressInfo, System.Collections.Generic.IEnumerable(Of EcommerceApp.Api.Models.ICartItem))
+  name.vb: Ship(IAddressInfo, IEnumerable(Of ICartItem))
+references:
+- uid: EcommerceApp.Api.Services
+  commentId: N:EcommerceApp.Api.Services
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Services
+  nameWithType: EcommerceApp.Api.Services
+  fullName: EcommerceApp.Api.Services
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+- uid: EcommerceApp.Api.Services.IShipmentService.Ship*
+  commentId: Overload:EcommerceApp.Api.Services.IShipmentService.Ship
+  href: EcommerceApp.Api.Services.IShipmentService.html#EcommerceApp_Api_Services_IShipmentService_Ship_EcommerceApp_Api_Models_IAddressInfo_System_Collections_Generic_IEnumerable_EcommerceApp_Api_Models_ICartItem__
+  name: Ship
+  nameWithType: IShipmentService.Ship
+  fullName: EcommerceApp.Api.Services.IShipmentService.Ship
+- uid: EcommerceApp.Api.Models.IAddressInfo
+  commentId: T:EcommerceApp.Api.Models.IAddressInfo
+  parent: EcommerceApp.Api.Models
+  href: EcommerceApp.Api.Models.IAddressInfo.html
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: EcommerceApp.Api.Models.IAddressInfo
+- uid: System.Collections.Generic.IEnumerable{EcommerceApp.Api.Models.ICartItem}
+  commentId: T:System.Collections.Generic.IEnumerable{EcommerceApp.Api.Models.ICartItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ICartItem>
+  nameWithType: IEnumerable<ICartItem>
+  fullName: System.Collections.Generic.IEnumerable<EcommerceApp.Api.Models.ICartItem>
+  nameWithType.vb: IEnumerable(Of ICartItem)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of EcommerceApp.Api.Models.ICartItem)
+  name.vb: IEnumerable(Of ICartItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: EcommerceApp.Api.Models.ICartItem
+    name: ICartItem
+    href: EcommerceApp.Api.Models.ICartItem.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: EcommerceApp.Api.Models.ICartItem
+    name: ICartItem
+    href: EcommerceApp.Api.Models.ICartItem.html
+  - name: )
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

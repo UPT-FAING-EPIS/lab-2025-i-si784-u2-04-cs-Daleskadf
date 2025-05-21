@@ -1,0 +1,35 @@
+### YamlMime:TableOfContent
+items:
+- uid: EcommerceApp.Api.Controllers
+  name: EcommerceApp.Api.Controllers
+  items:
+  - uid: EcommerceApp.Api.Controllers.CartController
+    name: CartController
+- uid: EcommerceApp.Api.Models
+  name: EcommerceApp.Api.Models
+  items:
+  - uid: EcommerceApp.Api.Models.IAddressInfo
+    name: IAddressInfo
+  - uid: EcommerceApp.Api.Models.ICard
+    name: ICard
+  - uid: EcommerceApp.Api.Models.ICartItem
+    name: ICartItem
+- uid: EcommerceApp.Api.Services
+  name: EcommerceApp.Api.Services
+  items:
+  - uid: EcommerceApp.Api.Services.ICartService
+    name: ICartService
+  - uid: EcommerceApp.Api.Services.IDiscountService
+    name: IDiscountService
+  - uid: EcommerceApp.Api.Services.IPaymentService
+    name: IPaymentService
+  - uid: EcommerceApp.Api.Services.IShipmentService
+    name: IShipmentService
+- uid: EcommerceApp.Tests
+  name: EcommerceApp.Tests
+  items:
+  - uid: EcommerceApp.Tests.CartControllerTests
+    name: CartControllerTests
+  - uid: EcommerceApp.Tests.Tests
+    name: Tests
+memberLayout: SamePage

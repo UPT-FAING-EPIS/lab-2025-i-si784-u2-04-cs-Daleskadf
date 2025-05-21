@@ -1,0 +1,78 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Services
+  commentId: N:EcommerceApp.Api.Services
+  id: EcommerceApp.Api.Services
+  children:
+  - EcommerceApp.Api.Services.ICartService
+  - EcommerceApp.Api.Services.IDiscountService
+  - EcommerceApp.Api.Services.IPaymentService
+  - EcommerceApp.Api.Services.IShipmentService
+  langs:
+  - csharp
+  - vb
+  name: EcommerceApp.Api.Services
+  nameWithType: EcommerceApp.Api.Services
+  fullName: EcommerceApp.Api.Services
+  type: Namespace
+  assemblies:
+  - EcommerceApp.Api
+references:
+- uid: EcommerceApp.Api.Services.ICartService
+  commentId: T:EcommerceApp.Api.Services.ICartService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.ICartService.html
+  name: ICartService
+  nameWithType: ICartService
+  fullName: EcommerceApp.Api.Services.ICartService
+- uid: EcommerceApp.Api.Services.IDiscountService
+  commentId: T:EcommerceApp.Api.Services.IDiscountService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.IDiscountService.html
+  name: IDiscountService
+  nameWithType: IDiscountService
+  fullName: EcommerceApp.Api.Services.IDiscountService
+- uid: EcommerceApp.Api.Services.IPaymentService
+  commentId: T:EcommerceApp.Api.Services.IPaymentService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.IPaymentService.html
+  name: IPaymentService
+  nameWithType: IPaymentService
+  fullName: EcommerceApp.Api.Services.IPaymentService
+- uid: EcommerceApp.Api.Services.IShipmentService
+  commentId: T:EcommerceApp.Api.Services.IShipmentService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.IShipmentService.html
+  name: IShipmentService
+  nameWithType: IShipmentService
+  fullName: EcommerceApp.Api.Services.IShipmentService
+- uid: EcommerceApp.Api.Services
+  commentId: N:EcommerceApp.Api.Services
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Services
+  nameWithType: EcommerceApp.Api.Services
+  fullName: EcommerceApp.Api.Services
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html

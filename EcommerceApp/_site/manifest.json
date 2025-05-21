@@ -1,0 +1,215 @@
+{
+  "source_base_path": "C:/Users/dales/OneDrive/Desktop/laboratorios patrick/calidad_u2_lab4/lab-2025-i-si784-u2-04-cs-Daleskadf/EcommerceApp",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Controllers.CartController.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Controllers.CartController.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Controllers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Controllers.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Models.IAddressInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Models.IAddressInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Models.ICard.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Models.ICard.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Models.ICartItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Models.ICartItem.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Models.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Services.ICartService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Services.ICartService.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Services.IDiscountService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Services.IDiscountService.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Services.IPaymentService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Services.IPaymentService.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Services.IShipmentService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Services.IShipmentService.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Api.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Api.Services.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Tests.CartControllerTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Tests.CartControllerTests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Tests.Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Tests.Tests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/EcommerceApp.Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/EcommerceApp.Tests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/getting-started.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/getting-started.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/introduction.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/introduction.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "docs/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/toc.html"
+        },
+        ".json": {
+          "relative_path": "docs/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

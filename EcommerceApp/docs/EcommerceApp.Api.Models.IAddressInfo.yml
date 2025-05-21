@@ -1,0 +1,257 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Models.IAddressInfo
+  commentId: T:EcommerceApp.Api.Models.IAddressInfo
+  id: IAddressInfo
+  parent: EcommerceApp.Api.Models
+  children:
+  - EcommerceApp.Api.Models.IAddressInfo.Address
+  - EcommerceApp.Api.Models.IAddressInfo.City
+  - EcommerceApp.Api.Models.IAddressInfo.PhoneNumber
+  - EcommerceApp.Api.Models.IAddressInfo.PostalCode
+  - EcommerceApp.Api.Models.IAddressInfo.Street
+  langs:
+  - csharp
+  - vb
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: EcommerceApp.Api.Models.IAddressInfo
+  type: Interface
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/IAddressInfo.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: IAddressInfo
+    path: EcommerceApp.Api/Models/IAddressInfo.cs
+    startLine: 1
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: public interface IAddressInfo
+    content.vb: Public Interface IAddressInfo
+- uid: EcommerceApp.Api.Models.IAddressInfo.Street
+  commentId: P:EcommerceApp.Api.Models.IAddressInfo.Street
+  id: Street
+  parent: EcommerceApp.Api.Models.IAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: Street
+  nameWithType: IAddressInfo.Street
+  fullName: EcommerceApp.Api.Models.IAddressInfo.Street
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/IAddressInfo.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: Street
+    path: EcommerceApp.Api/Models/IAddressInfo.cs
+    startLine: 3
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string Street { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Street As String
+  overload: EcommerceApp.Api.Models.IAddressInfo.Street*
+- uid: EcommerceApp.Api.Models.IAddressInfo.Address
+  commentId: P:EcommerceApp.Api.Models.IAddressInfo.Address
+  id: Address
+  parent: EcommerceApp.Api.Models.IAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: IAddressInfo.Address
+  fullName: EcommerceApp.Api.Models.IAddressInfo.Address
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/IAddressInfo.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: Address
+    path: EcommerceApp.Api/Models/IAddressInfo.cs
+    startLine: 4
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string Address { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Address As String
+  overload: EcommerceApp.Api.Models.IAddressInfo.Address*
+- uid: EcommerceApp.Api.Models.IAddressInfo.City
+  commentId: P:EcommerceApp.Api.Models.IAddressInfo.City
+  id: City
+  parent: EcommerceApp.Api.Models.IAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: City
+  nameWithType: IAddressInfo.City
+  fullName: EcommerceApp.Api.Models.IAddressInfo.City
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/IAddressInfo.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: City
+    path: EcommerceApp.Api/Models/IAddressInfo.cs
+    startLine: 5
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string City { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property City As String
+  overload: EcommerceApp.Api.Models.IAddressInfo.City*
+- uid: EcommerceApp.Api.Models.IAddressInfo.PostalCode
+  commentId: P:EcommerceApp.Api.Models.IAddressInfo.PostalCode
+  id: PostalCode
+  parent: EcommerceApp.Api.Models.IAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: PostalCode
+  nameWithType: IAddressInfo.PostalCode
+  fullName: EcommerceApp.Api.Models.IAddressInfo.PostalCode
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/IAddressInfo.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: PostalCode
+    path: EcommerceApp.Api/Models/IAddressInfo.cs
+    startLine: 6
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string PostalCode { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property PostalCode As String
+  overload: EcommerceApp.Api.Models.IAddressInfo.PostalCode*
+- uid: EcommerceApp.Api.Models.IAddressInfo.PhoneNumber
+  commentId: P:EcommerceApp.Api.Models.IAddressInfo.PhoneNumber
+  id: PhoneNumber
+  parent: EcommerceApp.Api.Models.IAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: PhoneNumber
+  nameWithType: IAddressInfo.PhoneNumber
+  fullName: EcommerceApp.Api.Models.IAddressInfo.PhoneNumber
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/IAddressInfo.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: PhoneNumber
+    path: EcommerceApp.Api/Models/IAddressInfo.cs
+    startLine: 7
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string PhoneNumber { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property PhoneNumber As String
+  overload: EcommerceApp.Api.Models.IAddressInfo.PhoneNumber*
+references:
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+- uid: EcommerceApp.Api.Models.IAddressInfo.Street*
+  commentId: Overload:EcommerceApp.Api.Models.IAddressInfo.Street
+  href: EcommerceApp.Api.Models.IAddressInfo.html#EcommerceApp_Api_Models_IAddressInfo_Street
+  name: Street
+  nameWithType: IAddressInfo.Street
+  fullName: EcommerceApp.Api.Models.IAddressInfo.Street
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcommerceApp.Api.Models.IAddressInfo.Address*
+  commentId: Overload:EcommerceApp.Api.Models.IAddressInfo.Address
+  href: EcommerceApp.Api.Models.IAddressInfo.html#EcommerceApp_Api_Models_IAddressInfo_Address
+  name: Address
+  nameWithType: IAddressInfo.Address
+  fullName: EcommerceApp.Api.Models.IAddressInfo.Address
+- uid: EcommerceApp.Api.Models.IAddressInfo.City*
+  commentId: Overload:EcommerceApp.Api.Models.IAddressInfo.City
+  href: EcommerceApp.Api.Models.IAddressInfo.html#EcommerceApp_Api_Models_IAddressInfo_City
+  name: City
+  nameWithType: IAddressInfo.City
+  fullName: EcommerceApp.Api.Models.IAddressInfo.City
+- uid: EcommerceApp.Api.Models.IAddressInfo.PostalCode*
+  commentId: Overload:EcommerceApp.Api.Models.IAddressInfo.PostalCode
+  href: EcommerceApp.Api.Models.IAddressInfo.html#EcommerceApp_Api_Models_IAddressInfo_PostalCode
+  name: PostalCode
+  nameWithType: IAddressInfo.PostalCode
+  fullName: EcommerceApp.Api.Models.IAddressInfo.PostalCode
+- uid: EcommerceApp.Api.Models.IAddressInfo.PhoneNumber*
+  commentId: Overload:EcommerceApp.Api.Models.IAddressInfo.PhoneNumber
+  href: EcommerceApp.Api.Models.IAddressInfo.html#EcommerceApp_Api_Models_IAddressInfo_PhoneNumber
+  name: PhoneNumber
+  nameWithType: IAddressInfo.PhoneNumber
+  fullName: EcommerceApp.Api.Models.IAddressInfo.PhoneNumber

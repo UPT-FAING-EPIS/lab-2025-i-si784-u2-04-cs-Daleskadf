@@ -1,0 +1,536 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Controllers.CartController
+  commentId: T:EcommerceApp.Api.Controllers.CartController
+  id: CartController
+  parent: EcommerceApp.Api.Controllers
+  children:
+  - EcommerceApp.Api.Controllers.CartController.#ctor(EcommerceApp.Api.Services.ICartService,EcommerceApp.Api.Services.IPaymentService,EcommerceApp.Api.Services.IShipmentService,EcommerceApp.Api.Services.IDiscountService)
+  - EcommerceApp.Api.Controllers.CartController.CheckOut(EcommerceApp.Api.Models.ICard,EcommerceApp.Api.Models.IAddressInfo)
+  langs:
+  - csharp
+  - vb
+  name: CartController
+  nameWithType: CartController
+  fullName: EcommerceApp.Api.Controllers.CartController
+  type: Class
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Controllers/CartController.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: CartController
+    path: EcommerceApp.Api/Controllers/CartController.cs
+    startLine: 7
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Controllers
+  syntax:
+    content: >-
+      [ApiController]
+
+      [Route("[controller]")]
+
+      public class CartController
+    content.vb: >-
+      <ApiController>
+
+      <Route("[controller]")>
+
+      Public Class CartController
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  attributes:
+  - type: Microsoft.AspNetCore.Mvc.ApiControllerAttribute
+    ctor: Microsoft.AspNetCore.Mvc.ApiControllerAttribute.#ctor
+    arguments: []
+  - type: Microsoft.AspNetCore.Mvc.RouteAttribute
+    ctor: Microsoft.AspNetCore.Mvc.RouteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: '[controller]'
+- uid: EcommerceApp.Api.Controllers.CartController.#ctor(EcommerceApp.Api.Services.ICartService,EcommerceApp.Api.Services.IPaymentService,EcommerceApp.Api.Services.IShipmentService,EcommerceApp.Api.Services.IDiscountService)
+  commentId: M:EcommerceApp.Api.Controllers.CartController.#ctor(EcommerceApp.Api.Services.ICartService,EcommerceApp.Api.Services.IPaymentService,EcommerceApp.Api.Services.IShipmentService,EcommerceApp.Api.Services.IDiscountService)
+  id: '#ctor(EcommerceApp.Api.Services.ICartService,EcommerceApp.Api.Services.IPaymentService,EcommerceApp.Api.Services.IShipmentService,EcommerceApp.Api.Services.IDiscountService)'
+  parent: EcommerceApp.Api.Controllers.CartController
+  langs:
+  - csharp
+  - vb
+  name: CartController(ICartService, IPaymentService, IShipmentService, IDiscountService)
+  nameWithType: CartController.CartController(ICartService, IPaymentService, IShipmentService, IDiscountService)
+  fullName: EcommerceApp.Api.Controllers.CartController.CartController(EcommerceApp.Api.Services.ICartService, EcommerceApp.Api.Services.IPaymentService, EcommerceApp.Api.Services.IShipmentService, EcommerceApp.Api.Services.IDiscountService)
+  type: Constructor
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Controllers/CartController.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: .ctor
+    path: EcommerceApp.Api/Controllers/CartController.cs
+    startLine: 16
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Controllers
+  syntax:
+    content: public CartController(ICartService cartService, IPaymentService paymentService, IShipmentService shipmentService, IDiscountService discountService)
+    parameters:
+    - id: cartService
+      type: EcommerceApp.Api.Services.ICartService
+    - id: paymentService
+      type: EcommerceApp.Api.Services.IPaymentService
+    - id: shipmentService
+      type: EcommerceApp.Api.Services.IShipmentService
+    - id: discountService
+      type: EcommerceApp.Api.Services.IDiscountService
+    content.vb: Public Sub New(cartService As ICartService, paymentService As IPaymentService, shipmentService As IShipmentService, discountService As IDiscountService)
+  overload: EcommerceApp.Api.Controllers.CartController.#ctor*
+  nameWithType.vb: CartController.New(ICartService, IPaymentService, IShipmentService, IDiscountService)
+  fullName.vb: EcommerceApp.Api.Controllers.CartController.New(EcommerceApp.Api.Services.ICartService, EcommerceApp.Api.Services.IPaymentService, EcommerceApp.Api.Services.IShipmentService, EcommerceApp.Api.Services.IDiscountService)
+  name.vb: New(ICartService, IPaymentService, IShipmentService, IDiscountService)
+- uid: EcommerceApp.Api.Controllers.CartController.CheckOut(EcommerceApp.Api.Models.ICard,EcommerceApp.Api.Models.IAddressInfo)
+  commentId: M:EcommerceApp.Api.Controllers.CartController.CheckOut(EcommerceApp.Api.Models.ICard,EcommerceApp.Api.Models.IAddressInfo)
+  id: CheckOut(EcommerceApp.Api.Models.ICard,EcommerceApp.Api.Models.IAddressInfo)
+  parent: EcommerceApp.Api.Controllers.CartController
+  langs:
+  - csharp
+  - vb
+  name: CheckOut(ICard, IAddressInfo)
+  nameWithType: CartController.CheckOut(ICard, IAddressInfo)
+  fullName: EcommerceApp.Api.Controllers.CartController.CheckOut(EcommerceApp.Api.Models.ICard, EcommerceApp.Api.Models.IAddressInfo)
+  type: Method
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Controllers/CartController.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: CheckOut
+    path: EcommerceApp.Api/Controllers/CartController.cs
+    startLine: 29
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Controllers
+  syntax:
+    content: >-
+      [HttpPost]
+
+      public string CheckOut(ICard card, IAddressInfo addressInfo)
+    parameters:
+    - id: card
+      type: EcommerceApp.Api.Models.ICard
+    - id: addressInfo
+      type: EcommerceApp.Api.Models.IAddressInfo
+    return:
+      type: System.String
+    content.vb: >-
+      <HttpPost>
+
+      Public Function CheckOut(card As ICard, addressInfo As IAddressInfo) As String
+  overload: EcommerceApp.Api.Controllers.CartController.CheckOut*
+  attributes:
+  - type: Microsoft.AspNetCore.Mvc.HttpPostAttribute
+    ctor: Microsoft.AspNetCore.Mvc.HttpPostAttribute.#ctor
+    arguments: []
+references:
+- uid: EcommerceApp.Api.Controllers
+  commentId: N:EcommerceApp.Api.Controllers
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Controllers
+  nameWithType: EcommerceApp.Api.Controllers
+  fullName: EcommerceApp.Api.Controllers
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Controllers
+    name: Controllers
+    href: EcommerceApp.Api.Controllers.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Controllers
+    name: Controllers
+    href: EcommerceApp.Api.Controllers.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcommerceApp.Api.Controllers.CartController.#ctor*
+  commentId: Overload:EcommerceApp.Api.Controllers.CartController.#ctor
+  href: EcommerceApp.Api.Controllers.CartController.html#EcommerceApp_Api_Controllers_CartController__ctor_EcommerceApp_Api_Services_ICartService_EcommerceApp_Api_Services_IPaymentService_EcommerceApp_Api_Services_IShipmentService_EcommerceApp_Api_Services_IDiscountService_
+  name: CartController
+  nameWithType: CartController.CartController
+  fullName: EcommerceApp.Api.Controllers.CartController.CartController
+  nameWithType.vb: CartController.New
+  fullName.vb: EcommerceApp.Api.Controllers.CartController.New
+  name.vb: New
+- uid: EcommerceApp.Api.Services.ICartService
+  commentId: T:EcommerceApp.Api.Services.ICartService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.ICartService.html
+  name: ICartService
+  nameWithType: ICartService
+  fullName: EcommerceApp.Api.Services.ICartService
+- uid: EcommerceApp.Api.Services.IPaymentService
+  commentId: T:EcommerceApp.Api.Services.IPaymentService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.IPaymentService.html
+  name: IPaymentService
+  nameWithType: IPaymentService
+  fullName: EcommerceApp.Api.Services.IPaymentService
+- uid: EcommerceApp.Api.Services.IShipmentService
+  commentId: T:EcommerceApp.Api.Services.IShipmentService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.IShipmentService.html
+  name: IShipmentService
+  nameWithType: IShipmentService
+  fullName: EcommerceApp.Api.Services.IShipmentService
+- uid: EcommerceApp.Api.Services.IDiscountService
+  commentId: T:EcommerceApp.Api.Services.IDiscountService
+  parent: EcommerceApp.Api.Services
+  href: EcommerceApp.Api.Services.IDiscountService.html
+  name: IDiscountService
+  nameWithType: IDiscountService
+  fullName: EcommerceApp.Api.Services.IDiscountService
+- uid: EcommerceApp.Api.Services
+  commentId: N:EcommerceApp.Api.Services
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Services
+  nameWithType: EcommerceApp.Api.Services
+  fullName: EcommerceApp.Api.Services
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+- uid: EcommerceApp.Api.Controllers.CartController.CheckOut*
+  commentId: Overload:EcommerceApp.Api.Controllers.CartController.CheckOut
+  href: EcommerceApp.Api.Controllers.CartController.html#EcommerceApp_Api_Controllers_CartController_CheckOut_EcommerceApp_Api_Models_ICard_EcommerceApp_Api_Models_IAddressInfo_
+  name: CheckOut
+  nameWithType: CartController.CheckOut
+  fullName: EcommerceApp.Api.Controllers.CartController.CheckOut
+- uid: EcommerceApp.Api.Models.ICard
+  commentId: T:EcommerceApp.Api.Models.ICard
+  parent: EcommerceApp.Api.Models
+  href: EcommerceApp.Api.Models.ICard.html
+  name: ICard
+  nameWithType: ICard
+  fullName: EcommerceApp.Api.Models.ICard
+- uid: EcommerceApp.Api.Models.IAddressInfo
+  commentId: T:EcommerceApp.Api.Models.IAddressInfo
+  parent: EcommerceApp.Api.Models
+  href: EcommerceApp.Api.Models.IAddressInfo.html
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: EcommerceApp.Api.Models.IAddressInfo
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html

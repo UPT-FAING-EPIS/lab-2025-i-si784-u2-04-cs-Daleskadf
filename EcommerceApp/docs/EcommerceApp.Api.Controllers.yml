@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Controllers
+  commentId: N:EcommerceApp.Api.Controllers
+  id: EcommerceApp.Api.Controllers
+  children:
+  - EcommerceApp.Api.Controllers.CartController
+  langs:
+  - csharp
+  - vb
+  name: EcommerceApp.Api.Controllers
+  nameWithType: EcommerceApp.Api.Controllers
+  fullName: EcommerceApp.Api.Controllers
+  type: Namespace
+  assemblies:
+  - EcommerceApp.Api
+references:
+- uid: EcommerceApp.Api.Controllers.CartController
+  commentId: T:EcommerceApp.Api.Controllers.CartController
+  href: EcommerceApp.Api.Controllers.CartController.html
+  name: CartController
+  nameWithType: CartController
+  fullName: EcommerceApp.Api.Controllers.CartController

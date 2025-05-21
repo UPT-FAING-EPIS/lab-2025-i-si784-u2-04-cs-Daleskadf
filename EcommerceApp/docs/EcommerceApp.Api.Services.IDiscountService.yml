@@ -1,0 +1,122 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Services.IDiscountService
+  commentId: T:EcommerceApp.Api.Services.IDiscountService
+  id: IDiscountService
+  parent: EcommerceApp.Api.Services
+  children:
+  - EcommerceApp.Api.Services.IDiscountService.ApplyDiscount(System.Double)
+  langs:
+  - csharp
+  - vb
+  name: IDiscountService
+  nameWithType: IDiscountService
+  fullName: EcommerceApp.Api.Services.IDiscountService
+  type: Interface
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Services/IDiscountService.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: IDiscountService
+    path: EcommerceApp.Api/Services/IDiscountService.cs
+    startLine: 2
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Services
+  syntax:
+    content: public interface IDiscountService
+    content.vb: Public Interface IDiscountService
+- uid: EcommerceApp.Api.Services.IDiscountService.ApplyDiscount(System.Double)
+  commentId: M:EcommerceApp.Api.Services.IDiscountService.ApplyDiscount(System.Double)
+  id: ApplyDiscount(System.Double)
+  parent: EcommerceApp.Api.Services.IDiscountService
+  langs:
+  - csharp
+  - vb
+  name: ApplyDiscount(double)
+  nameWithType: IDiscountService.ApplyDiscount(double)
+  fullName: EcommerceApp.Api.Services.IDiscountService.ApplyDiscount(double)
+  type: Method
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Services/IDiscountService.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: ApplyDiscount
+    path: EcommerceApp.Api/Services/IDiscountService.cs
+    startLine: 9
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Services
+  summary: Aplica un descuento al monto total proporcionado.
+  example: []
+  syntax:
+    content: double ApplyDiscount(double totalAmount)
+    parameters:
+    - id: totalAmount
+      type: System.Double
+      description: El monto total original.
+    return:
+      type: System.Double
+      description: El monto total después de aplicar el descuento.
+    content.vb: Function ApplyDiscount(totalAmount As Double) As Double
+  overload: EcommerceApp.Api.Services.IDiscountService.ApplyDiscount*
+  nameWithType.vb: IDiscountService.ApplyDiscount(Double)
+  fullName.vb: EcommerceApp.Api.Services.IDiscountService.ApplyDiscount(Double)
+  name.vb: ApplyDiscount(Double)
+references:
+- uid: EcommerceApp.Api.Services
+  commentId: N:EcommerceApp.Api.Services
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Services
+  nameWithType: EcommerceApp.Api.Services
+  fullName: EcommerceApp.Api.Services
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+- uid: EcommerceApp.Api.Services.IDiscountService.ApplyDiscount*
+  commentId: Overload:EcommerceApp.Api.Services.IDiscountService.ApplyDiscount
+  href: EcommerceApp.Api.Services.IDiscountService.html#EcommerceApp_Api_Services_IDiscountService_ApplyDiscount_System_Double_
+  name: ApplyDiscount
+  nameWithType: IDiscountService.ApplyDiscount
+  fullName: EcommerceApp.Api.Services.IDiscountService.ApplyDiscount
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System

@@ -1,0 +1,196 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Models.ICard
+  commentId: T:EcommerceApp.Api.Models.ICard
+  id: ICard
+  parent: EcommerceApp.Api.Models
+  children:
+  - EcommerceApp.Api.Models.ICard.CardNumber
+  - EcommerceApp.Api.Models.ICard.Name
+  - EcommerceApp.Api.Models.ICard.ValidTo
+  langs:
+  - csharp
+  - vb
+  name: ICard
+  nameWithType: ICard
+  fullName: EcommerceApp.Api.Models.ICard
+  type: Interface
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICard.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: ICard
+    path: EcommerceApp.Api/Models/ICard.cs
+    startLine: 1
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: public interface ICard
+    content.vb: Public Interface ICard
+- uid: EcommerceApp.Api.Models.ICard.CardNumber
+  commentId: P:EcommerceApp.Api.Models.ICard.CardNumber
+  id: CardNumber
+  parent: EcommerceApp.Api.Models.ICard
+  langs:
+  - csharp
+  - vb
+  name: CardNumber
+  nameWithType: ICard.CardNumber
+  fullName: EcommerceApp.Api.Models.ICard.CardNumber
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICard.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: CardNumber
+    path: EcommerceApp.Api/Models/ICard.cs
+    startLine: 3
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string CardNumber { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property CardNumber As String
+  overload: EcommerceApp.Api.Models.ICard.CardNumber*
+- uid: EcommerceApp.Api.Models.ICard.Name
+  commentId: P:EcommerceApp.Api.Models.ICard.Name
+  id: Name
+  parent: EcommerceApp.Api.Models.ICard
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ICard.Name
+  fullName: EcommerceApp.Api.Models.ICard.Name
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICard.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: Name
+    path: EcommerceApp.Api/Models/ICard.cs
+    startLine: 4
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Name As String
+  overload: EcommerceApp.Api.Models.ICard.Name*
+- uid: EcommerceApp.Api.Models.ICard.ValidTo
+  commentId: P:EcommerceApp.Api.Models.ICard.ValidTo
+  id: ValidTo
+  parent: EcommerceApp.Api.Models.ICard
+  langs:
+  - csharp
+  - vb
+  name: ValidTo
+  nameWithType: ICard.ValidTo
+  fullName: EcommerceApp.Api.Models.ICard.ValidTo
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICard.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: ValidTo
+    path: EcommerceApp.Api/Models/ICard.cs
+    startLine: 5
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: DateTime ValidTo { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Property ValidTo As Date
+  overload: EcommerceApp.Api.Models.ICard.ValidTo*
+references:
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+- uid: EcommerceApp.Api.Models.ICard.CardNumber*
+  commentId: Overload:EcommerceApp.Api.Models.ICard.CardNumber
+  href: EcommerceApp.Api.Models.ICard.html#EcommerceApp_Api_Models_ICard_CardNumber
+  name: CardNumber
+  nameWithType: ICard.CardNumber
+  fullName: EcommerceApp.Api.Models.ICard.CardNumber
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcommerceApp.Api.Models.ICard.Name*
+  commentId: Overload:EcommerceApp.Api.Models.ICard.Name
+  href: EcommerceApp.Api.Models.ICard.html#EcommerceApp_Api_Models_ICard_Name
+  name: Name
+  nameWithType: ICard.Name
+  fullName: EcommerceApp.Api.Models.ICard.Name
+- uid: EcommerceApp.Api.Models.ICard.ValidTo*
+  commentId: Overload:EcommerceApp.Api.Models.ICard.ValidTo
+  href: EcommerceApp.Api.Models.ICard.html#EcommerceApp_Api_Models_ICard_ValidTo
+  name: ValidTo
+  nameWithType: ICard.ValidTo
+  fullName: EcommerceApp.Api.Models.ICard.ValidTo
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date

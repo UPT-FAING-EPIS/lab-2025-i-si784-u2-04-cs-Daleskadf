@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  id: EcommerceApp.Api.Models
+  children:
+  - EcommerceApp.Api.Models.IAddressInfo
+  - EcommerceApp.Api.Models.ICard
+  - EcommerceApp.Api.Models.ICartItem
+  langs:
+  - csharp
+  - vb
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  type: Namespace
+  assemblies:
+  - EcommerceApp.Api
+references:
+- uid: EcommerceApp.Api.Models.IAddressInfo
+  commentId: T:EcommerceApp.Api.Models.IAddressInfo
+  parent: EcommerceApp.Api.Models
+  href: EcommerceApp.Api.Models.IAddressInfo.html
+  name: IAddressInfo
+  nameWithType: IAddressInfo
+  fullName: EcommerceApp.Api.Models.IAddressInfo
+- uid: EcommerceApp.Api.Models.ICard
+  commentId: T:EcommerceApp.Api.Models.ICard
+  parent: EcommerceApp.Api.Models
+  href: EcommerceApp.Api.Models.ICard.html
+  name: ICard
+  nameWithType: ICard
+  fullName: EcommerceApp.Api.Models.ICard
+- uid: EcommerceApp.Api.Models.ICartItem
+  commentId: T:EcommerceApp.Api.Models.ICartItem
+  href: EcommerceApp.Api.Models.ICartItem.html
+  name: ICartItem
+  nameWithType: ICartItem
+  fullName: EcommerceApp.Api.Models.ICartItem
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html

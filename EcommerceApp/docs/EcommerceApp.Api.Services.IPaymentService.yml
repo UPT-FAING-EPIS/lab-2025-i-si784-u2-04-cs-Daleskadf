@@ -1,0 +1,168 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Services.IPaymentService
+  commentId: T:EcommerceApp.Api.Services.IPaymentService
+  id: IPaymentService
+  parent: EcommerceApp.Api.Services
+  children:
+  - EcommerceApp.Api.Services.IPaymentService.Charge(System.Double,EcommerceApp.Api.Models.ICard)
+  langs:
+  - csharp
+  - vb
+  name: IPaymentService
+  nameWithType: IPaymentService
+  fullName: EcommerceApp.Api.Services.IPaymentService
+  type: Interface
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Services/IPaymentService.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: IPaymentService
+    path: EcommerceApp.Api/Services/IPaymentService.cs
+    startLine: 2
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Services
+  syntax:
+    content: public interface IPaymentService
+    content.vb: Public Interface IPaymentService
+- uid: EcommerceApp.Api.Services.IPaymentService.Charge(System.Double,EcommerceApp.Api.Models.ICard)
+  commentId: M:EcommerceApp.Api.Services.IPaymentService.Charge(System.Double,EcommerceApp.Api.Models.ICard)
+  id: Charge(System.Double,EcommerceApp.Api.Models.ICard)
+  parent: EcommerceApp.Api.Services.IPaymentService
+  langs:
+  - csharp
+  - vb
+  name: Charge(double, ICard)
+  nameWithType: IPaymentService.Charge(double, ICard)
+  fullName: EcommerceApp.Api.Services.IPaymentService.Charge(double, EcommerceApp.Api.Models.ICard)
+  type: Method
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Services/IPaymentService.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: Charge
+    path: EcommerceApp.Api/Services/IPaymentService.cs
+    startLine: 4
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Services
+  syntax:
+    content: bool Charge(double total, ICard card)
+    parameters:
+    - id: total
+      type: System.Double
+    - id: card
+      type: EcommerceApp.Api.Models.ICard
+    return:
+      type: System.Boolean
+    content.vb: Function Charge(total As Double, card As ICard) As Boolean
+  overload: EcommerceApp.Api.Services.IPaymentService.Charge*
+  nameWithType.vb: IPaymentService.Charge(Double, ICard)
+  fullName.vb: EcommerceApp.Api.Services.IPaymentService.Charge(Double, EcommerceApp.Api.Models.ICard)
+  name.vb: Charge(Double, ICard)
+references:
+- uid: EcommerceApp.Api.Services
+  commentId: N:EcommerceApp.Api.Services
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Services
+  nameWithType: EcommerceApp.Api.Services
+  fullName: EcommerceApp.Api.Services
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Services
+    name: Services
+    href: EcommerceApp.Api.Services.html
+- uid: EcommerceApp.Api.Services.IPaymentService.Charge*
+  commentId: Overload:EcommerceApp.Api.Services.IPaymentService.Charge
+  href: EcommerceApp.Api.Services.IPaymentService.html#EcommerceApp_Api_Services_IPaymentService_Charge_System_Double_EcommerceApp_Api_Models_ICard_
+  name: Charge
+  nameWithType: IPaymentService.Charge
+  fullName: EcommerceApp.Api.Services.IPaymentService.Charge
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: EcommerceApp.Api.Models.ICard
+  commentId: T:EcommerceApp.Api.Models.ICard
+  parent: EcommerceApp.Api.Models
+  href: EcommerceApp.Api.Models.ICard.html
+  name: ICard
+  nameWithType: ICard
+  fullName: EcommerceApp.Api.Models.ICard
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html

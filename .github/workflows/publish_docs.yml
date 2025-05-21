@@ -1,0 +1,28 @@
+name: Publicar Doc con docfx
+
+on: push
+jobs:
+  docfx:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0
+    - name: Init DocFx
+      run: dotnet tool update -g docfx
+
+    - name: Generar metadata
+      run: docfx metadata EcommerceApp/docfx.json
+
+    - name: Build Doc Site
+      run: docfx build EcommerceApp/docfx.json
+
+    - name: Subir GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: EcommerceApp/_site

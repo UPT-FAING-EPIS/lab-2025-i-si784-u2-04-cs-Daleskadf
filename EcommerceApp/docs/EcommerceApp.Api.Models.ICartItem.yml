@@ -1,0 +1,207 @@
+### YamlMime:ManagedReference
+items:
+- uid: EcommerceApp.Api.Models.ICartItem
+  commentId: T:EcommerceApp.Api.Models.ICartItem
+  id: ICartItem
+  parent: EcommerceApp.Api.Models
+  children:
+  - EcommerceApp.Api.Models.ICartItem.Price
+  - EcommerceApp.Api.Models.ICartItem.ProductId
+  - EcommerceApp.Api.Models.ICartItem.Quantity
+  langs:
+  - csharp
+  - vb
+  name: ICartItem
+  nameWithType: ICartItem
+  fullName: EcommerceApp.Api.Models.ICartItem
+  type: Interface
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICartItem.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: ICartItem
+    path: EcommerceApp.Api/Models/ICartItem.cs
+    startLine: 1
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: public interface ICartItem
+    content.vb: Public Interface ICartItem
+- uid: EcommerceApp.Api.Models.ICartItem.ProductId
+  commentId: P:EcommerceApp.Api.Models.ICartItem.ProductId
+  id: ProductId
+  parent: EcommerceApp.Api.Models.ICartItem
+  langs:
+  - csharp
+  - vb
+  name: ProductId
+  nameWithType: ICartItem.ProductId
+  fullName: EcommerceApp.Api.Models.ICartItem.ProductId
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICartItem.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: ProductId
+    path: EcommerceApp.Api/Models/ICartItem.cs
+    startLine: 3
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: string ProductId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property ProductId As String
+  overload: EcommerceApp.Api.Models.ICartItem.ProductId*
+- uid: EcommerceApp.Api.Models.ICartItem.Quantity
+  commentId: P:EcommerceApp.Api.Models.ICartItem.Quantity
+  id: Quantity
+  parent: EcommerceApp.Api.Models.ICartItem
+  langs:
+  - csharp
+  - vb
+  name: Quantity
+  nameWithType: ICartItem.Quantity
+  fullName: EcommerceApp.Api.Models.ICartItem.Quantity
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICartItem.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: Quantity
+    path: EcommerceApp.Api/Models/ICartItem.cs
+    startLine: 4
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: int Quantity { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Property Quantity As Integer
+  overload: EcommerceApp.Api.Models.ICartItem.Quantity*
+- uid: EcommerceApp.Api.Models.ICartItem.Price
+  commentId: P:EcommerceApp.Api.Models.ICartItem.Price
+  id: Price
+  parent: EcommerceApp.Api.Models.ICartItem
+  langs:
+  - csharp
+  - vb
+  name: Price
+  nameWithType: ICartItem.Price
+  fullName: EcommerceApp.Api.Models.ICartItem.Price
+  type: Property
+  source:
+    remote:
+      path: EcommerceApp/EcommerceApp.Api/Models/ICartItem.cs
+      branch: main
+      repo: https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf.git
+    id: Price
+    path: EcommerceApp.Api/Models/ICartItem.cs
+    startLine: 5
+  assemblies:
+  - EcommerceApp.Api
+  namespace: EcommerceApp.Api.Models
+  syntax:
+    content: double Price { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Property Price As Double
+  overload: EcommerceApp.Api.Models.ICartItem.Price*
+references:
+- uid: EcommerceApp.Api.Models
+  commentId: N:EcommerceApp.Api.Models
+  href: EcommerceApp.html
+  name: EcommerceApp.Api.Models
+  nameWithType: EcommerceApp.Api.Models
+  fullName: EcommerceApp.Api.Models
+  spec.csharp:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+  spec.vb:
+  - uid: EcommerceApp
+    name: EcommerceApp
+    href: EcommerceApp.html
+  - name: .
+  - uid: EcommerceApp.Api
+    name: Api
+    href: EcommerceApp.Api.html
+  - name: .
+  - uid: EcommerceApp.Api.Models
+    name: Models
+    href: EcommerceApp.Api.Models.html
+- uid: EcommerceApp.Api.Models.ICartItem.ProductId*
+  commentId: Overload:EcommerceApp.Api.Models.ICartItem.ProductId
+  href: EcommerceApp.Api.Models.ICartItem.html#EcommerceApp_Api_Models_ICartItem_ProductId
+  name: ProductId
+  nameWithType: ICartItem.ProductId
+  fullName: EcommerceApp.Api.Models.ICartItem.ProductId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: EcommerceApp.Api.Models.ICartItem.Quantity*
+  commentId: Overload:EcommerceApp.Api.Models.ICartItem.Quantity
+  href: EcommerceApp.Api.Models.ICartItem.html#EcommerceApp_Api_Models_ICartItem_Quantity
+  name: Quantity
+  nameWithType: ICartItem.Quantity
+  fullName: EcommerceApp.Api.Models.ICartItem.Quantity
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: EcommerceApp.Api.Models.ICartItem.Price*
+  commentId: Overload:EcommerceApp.Api.Models.ICartItem.Price
+  href: EcommerceApp.Api.Models.ICartItem.html#EcommerceApp_Api_Models_ICartItem_Price
+  name: Price
+  nameWithType: ICartItem.Price
+  fullName: EcommerceApp.Api.Models.ICartItem.Price
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
