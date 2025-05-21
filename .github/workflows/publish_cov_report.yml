@@ -1,0 +1,65 @@
+name: Publish Coverage Report
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x' # O la versión que estés usando
+
+    - name: Restore dependencies
+      run: dotnet restore EcommerceApp.sln # Asegúrate que el path y nombre del .sln sea correcto
+      working-directory: EcommerceApp      # Asegúrate que este sea el directorio correcto
+
+    - name: Build the project
+      run: dotnet build EcommerceApp.sln --configuration Release
+      working-directory: EcommerceApp
+
+    - name: Run tests and collect code coverage
+      run: dotnet test EcommerceApp.sln --configuration Release --collect:"XPlat Code Coverage"
+      working-directory: EcommerceApp
+
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Add .NET tools to PATH
+      run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+    - name: Generate coverage report
+      run: |
+        reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage-report" -reporttypes:HTML
+      working-directory: EcommerceApp # El informe se genera en EcommerceApp/coverage-report
+
+    # Ya no es necesario tirar de gh-pages si vas a hacer force_orphan o si no te importa el historial previo de la carpeta específica
+    # - name: Pull latest gh-pages branch (optional)
+    #   run: git pull origin gh-pages || echo "No gh-pages branch to pull"
+
+    - name: Publish coverage report to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: EcommerceApp/coverage-report   # Directorio que contiene el informe de cobertura
+        publish_branch: gh-pages              # Rama de destino
+        destination_dir: cobertura            # Publica en el subdirectorio 'cobertura'
+        keep_files: true                      # No borra otros archivos/directorios en gh-pages
+        allow_empty_commit: false
+        force_orphan: false                   # Considera si quieres esto o no. False es más seguro para no perder otros contenidos.
+        enable_jekyll: false
+        disable_nojekyll: false               # DocFx genera un .nojekyll, esto asegura que no se elimine o se sobreescriba por error.
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        # exclude_assets: .github # Probablemente no necesario aquí
