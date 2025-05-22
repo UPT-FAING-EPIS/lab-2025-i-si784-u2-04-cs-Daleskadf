@@ -7,7 +7,7 @@
     <InvariantGlobalization>true</InvariantGlobalization>
     <Version>1.0.0</Version> 
 
-    <PackageId>EcommerseApp.Api</PackageId>
+    <PackageId>EcommerceApp.Api</PackageId>
     <Authors>Daleskadf</Authors>
     <Description>Una API de ejemplo para una aplicación de comercio electrónico.</Description>
     <PackageProjectUrl>https://github.com/UPT-FAING-EPIS/lab-2025-i-si784-u2-04-cs-Daleskadf</PackageProjectUrl>
