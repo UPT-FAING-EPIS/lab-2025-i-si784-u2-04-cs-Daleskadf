@@ -3,10 +3,8 @@ name: Bank - Release NuGet Package to Personal Daleskadf Feed
 env:
   DOTNET_VERSION: '8.0.x'
   PROJECT_NAME: EcommerceApp.Api
-  # --- ¡ESTAS SON LAS RUTAS CORRECTAS! ---
-  PROJECT_PATH: EcommerceApp.Api/EcommerceApp.Api.csproj
-  TEST_PROJECT_PATH: EcommerceApp.Tests/EcommerceApp.Tests.csproj
-  # --------------------------------------
+  PROJECT_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
+  TEST_PROJECT_PATH: EcommerceApp/EcommerceApp.Tests/EcommerceApp.Tests.csproj
   PACKAGE_OUTPUT_DIRECTORY: out
 
 
