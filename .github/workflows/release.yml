@@ -3,9 +3,9 @@ name: EcommerseApp - Release NuGet Package and Create GitHub Release
 env:
   DOTNET_VERSION: '8.0.x'
   # Asegúrate que este PROJECT_NAME coincida con el <PackageId> en tu .csproj
-  PROJECT_NAME: EcommerseApp.Api 
-  PROJECT_PATH: EcommerseApp/EcommerseApp.Api/EcommerseApp.Api.csproj
-  TEST_PROJECT_PATH: EcommerseApp/EcommerseApp.Tests/EcommerseApp.Tests.csproj
+  PROJECT_NAME: EcommerceApp.Api 
+  PROJECT_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
+  TEST_PROJECT_PATH: EcommerceApp/EcommerceApp.Tests/EcommerceApp.Tests.csproj
   PACKAGE_OUTPUT_DIRECTORY: out
 
 on:
@@ -16,7 +16,7 @@ on:
 
 jobs:
   build-test-publish-release:
-    name: Build, Test, Publish EcommerseApp Package and Create Release
+    name: Build, Test, Publish EcommerceApp Package and Create Release
     runs-on: ubuntu-latest
     permissions:
       contents: write 
