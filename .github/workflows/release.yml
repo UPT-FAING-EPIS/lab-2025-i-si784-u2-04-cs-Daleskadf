@@ -5,7 +5,7 @@ env:
   PROJECT_NAME: EcommerceApp.Api
   PROJECT_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
   TEST_PROJECT_PATH: EcommerceApp/EcommerceApp.Tests/EcommerceApp.Tests.csproj
-  PACKAGE_OUTPUT_DIRECTORY: out
+  PACKAGE_OUTPUT_DIRECTORY: nuget_packages
 
 
 on:
