@@ -1,0 +1,98 @@
+name: EcommerseApp - Release NuGet Package and Create GitHub Release
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  # Asegúrate que este PROJECT_NAME coincida con el <PackageId> en tu .csproj
+  PROJECT_NAME: EcommerseApp.Api 
+  PROJECT_PATH: EcommerseApp/EcommerseApp.Api/EcommerseApp.Api.csproj
+  TEST_PROJECT_PATH: EcommerseApp/EcommerseApp.Tests/EcommerseApp.Tests.csproj
+  PACKAGE_OUTPUT_DIRECTORY: out
+
+on:
+  push:
+    branches:
+      - main # Se activa cuando haces push a la rama main
+  workflow_dispatch: # Te permite ejecutarlo manualmente también
+
+jobs:
+  build-test-publish-release:
+    name: Build, Test, Publish EcommerseApp Package and Create Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write 
+      packages: write 
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 
+
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT_PATH }} && dotnet restore ${{ env.TEST_PROJECT_PATH }}
+
+    - name: Run Unit Tests
+      run: dotnet test ${{ env.TEST_PROJECT_PATH }} --no-restore --logger trx
+
+    - name: Build project
+      # No es estrictamente necesario pasar -p:Version aquí si ya está en el csproj,
+      # pero no hace daño y asegura que el build conozca la versión.
+      # Sin embargo, para el empaquetado es donde realmente se usa.
+      run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+
+    - name: Get Package Version from .csproj
+      id: package_info
+      run: |
+        # Extrae la versión del archivo .csproj
+        # Este comando busca la etiqueta <Version> dentro de <PropertyGroup>
+        VERSION=$(grep -oP '(?<=<Version>).*(?=</Version>)' ${{ env.PROJECT_PATH }} | head -n 1)
+        
+        if [ -z "$VERSION" ]; then
+          echo "Error: No se pudo extraer la versión del archivo ${{ env.PROJECT_PATH }}"
+          exit 1
+        fi
+        
+        echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
+        echo "version_tag=v$VERSION" >> $GITHUB_ENV 
+        echo "Versión del paquete leída del .csproj: $VERSION"
+
+    - name: Create NuGet Package
+      run: |
+        echo "Empaquetando ${{ env.PROJECT_NAME }} con versión: ${{ env.PACKAGE_VERSION }}"
+        # Ya no es necesario pasar /p:PackageVersion porque dotnet pack leerá la versión del .csproj
+        dotnet pack ${{ env.PROJECT_PATH }} \
+          -c Release \
+          --no-build \
+          -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+
+    - name: Setup NuGet Source for GitHub Packages
+      run: |
+        dotnet nuget add source --username ${{ github.actor }} \
+          --password ${{ secrets.GH_TOKEN }} \
+          --store-password-in-clear-text \
+          --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
+    - name: Publish NuGet Package to GitHub Packages
+      run: |
+        # El nombre del archivo nupkg se forma como <PackageId>.<Version>.nupkg
+        dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg" \
+          --api-key ${{ secrets.GH_TOKEN }} \
+          --source "github" \
+          --skip-duplicate
+
+    - name: Create GitHub Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ env.version_tag }} 
+        name: "Release ${{ env.version_tag }} (${{ env.PROJECT_NAME }})"
+        body: |
+          Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
+          Contiene el archivo NuGet generado.
+        artifacts: "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg"
+        token: ${{ secrets.GH_TOKEN }}
+        allowUpdates: true
