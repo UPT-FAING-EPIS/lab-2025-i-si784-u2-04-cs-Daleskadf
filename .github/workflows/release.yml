@@ -1,109 +1,121 @@
-name: EcommerceApp - Release NuGet Package and Create GitHub Release
+name: EcommerceApp - Release NuGet Package to Personal Daleskadf Feed
 
 env:
   DOTNET_VERSION: '8.0.x'
-  # Asegúrate que este PROJECT_NAME coincida con el <PackageId> en tu .csproj
-  PROJECT_NAME: EcommerceApp.Api # Debe coincidir con el <PackageId> en EcommerceApp.Api.csproj
+  # Asegúrate que este PROJECT_NAME coincida con el <PackageId> en tu EcommerceApp.Api.csproj
+  PROJECT_NAME: EcommerceApp.Api
   # Rutas corregidas relativas a la raíz del repositorio
   PROJECT_PATH: EcommerceApp.Api/EcommerceApp.Api.csproj
   TEST_PROJECT_PATH: EcommerceApp.Tests/EcommerceApp.Tests.csproj
-  PACKAGE_OUTPUT_DIRECTORY: out # Carpeta de salida para el .nupkg, se creará en la raíz del workspace
+  PACKAGE_OUTPUT_DIRECTORY: out
+  # Reemplaza 'Daleskadf' con tu nombre de usuario de GitHub si es diferente
+  GITHUB_USERNAME: Daleskadf
 
 on:
   push:
     branches:
-      - main # Se activa cuando haces push a la rama main
-  workflow_dispatch: # Te permite ejecutarlo manualmente también
+      - main  # Se activa cuando haces push a la rama main
+  workflow_dispatch: # Te permite ejecutarlo manually también
 
 jobs:
   build-test-publish-release:
-    name: Build, Test, Publish EcommerceApp Package and Create Release
+    name: Build, Test, Publish EcommerceApp Package to Daleskadf Personal Feed
     runs-on: ubuntu-latest
     permissions:
       contents: write # Necesario para crear releases y tags
-      packages: write # Necesario para publicar paquetes a GitHub Packages
+      packages: write # Necesario para publicar paquetes a GitHub Packages (a tu feed personal)
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0 # Necesario para obtener tags para versionado (aunque aquí lees la versión del csproj)
+        fetch-depth: 0
 
     - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
+    # PASO DE DEPURACIÓN (RECOMENDADO MANTENERLO HASTA QUE CONFIRMES QUE FUNCIONA)
+    - name: DEBUG - List Workspace Structure
+      run: |
+        echo "-----------------------------------------------------"
+        echo "DEBUGGING WORKSPACE STRUCTURE"
+        echo "-----------------------------------------------------"
+        echo "Current directory (pwd):"
+        pwd
+        echo "-----------------------------------------------------"
+        echo "Listing root of workspace (ls -lah):"
+        ls -lah
+        echo "-----------------------------------------------------"
+        echo "Value of env.PROJECT_PATH: ${{ env.PROJECT_PATH }}"
+        if [ -f "${{ env.PROJECT_PATH }}" ]; then
+          echo "SUCCESS: Project file found at ${{ env.PROJECT_PATH }}"
+        else
+          echo "ERROR: Project file NOT FOUND at ${{ env.PROJECT_PATH }}"
+        fi
+        echo "-----------------------------------------------------"
+      shell: bash
+
     - name: Restore dependencies
       run: dotnet restore ${{ env.PROJECT_PATH }} && dotnet restore ${{ env.TEST_PROJECT_PATH }}
 
     - name: Run Unit Tests
-      run: dotnet test ${{ env.TEST_PROJECT_PATH }} --no-restore --logger trx # Trx logger es útil para ver resultados de pruebas
+      run: dotnet test ${{ env.TEST_PROJECT_PATH }} --no-restore --logger trx
 
     - name: Build project
       run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
 
     - name: Get Package Version from .csproj
-      id: package_info # Se le da un ID para poder referenciar sus outputs
+      id: package_info
       run: |
-        # Extrae la versión del archivo .csproj
-        # Este comando busca la etiqueta <Version> dentro de <PropertyGroup>
-        # y toma la primera que encuentre.
         VERSION=$(grep -oP '(?<=<Version>).*(?=</Version>)' ${{ env.PROJECT_PATH }} | head -n 1)
-        
         if [ -z "$VERSION" ]; then
           echo "Error: No se pudo extraer la versión del archivo .csproj: ${{ env.PROJECT_PATH }}"
           exit 1
         fi
-        
         echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
-        echo "version_tag=v$VERSION" >> $GITHUB_ENV # Crea una variable de entorno para el tag del release
+        echo "version_tag=v$VERSION" >> $GITHUB_ENV
         echo "Versión del paquete leída del .csproj: $VERSION"
 
     - name: Create NuGet Package
       run: |
         echo "Empaquetando ${{ env.PROJECT_NAME }} con versión: ${{ env.PACKAGE_VERSION }}"
-        # dotnet pack leerá la <Version> y <PackageId> del .csproj
-        # -o especifica el directorio de salida para el .nupkg
-        # La carpeta PACKAGE_OUTPUT_DIRECTORY ('out') se creará en la raíz del workspace si no existe.
         dotnet pack ${{ env.PROJECT_PATH }} \
           -c Release \
           --no-build \
           -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
 
-    # (Opcional pero recomendado) Paso de depuración para verificar la creación del paquete
-    - name: List NuGet Package Output
+    - name: List NuGet Package Output (Debug)
       run: |
         echo "Contenido de la carpeta de salida de paquetes (${{ env.PACKAGE_OUTPUT_DIRECTORY }}):"
         ls -R ${{ env.PACKAGE_OUTPUT_DIRECTORY }} || echo "La carpeta ${{ env.PACKAGE_OUTPUT_DIRECTORY }} no existe o está vacía."
-        echo "Contenido de la raíz del workspace:"
-        ls -lah
 
-    - name: Setup NuGet Source for GitHub Packages
+    - name: Setup NuGet Source for Your Personal GitHub Packages (${{ env.GITHUB_USERNAME }})
       run: |
-        dotnet nuget add source --username ${{ github.actor }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
-          --store-password-in-clear-text \
-          --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+        PERSONAL_NUGET_URL="https://nuget.pkg.github.com/${{ env.GITHUB_USERNAME }}/index.json"
+        echo "Configurando NuGet source para el feed personal: $PERSONAL_NUGET_URL"
+        
+        dotnet nuget add source "$PERSONAL_NUGET_URL" --name "github-personal-feed" --username "${{ env.GITHUB_USERNAME }}" --password "${{ secrets.GITHUB_TOKEN }}" --store-password-in-clear-text
 
-    - name: Publish NuGet Package to GitHub Packages
+    - name: Publish NuGet Package to Your Personal GitHub Packages (${{ env.GITHUB_USERNAME }})
       run: |
-        # El nombre del archivo nupkg se forma como <PackageId>.<Version>.nupkg
-        # Asegúrate de que ${{ env.PROJECT_NAME }} y ${{ env.PACKAGE_VERSION }} sean correctos.
-        echo "Publicando el paquete: ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg"
+        echo "Intentando publicar el paquete en el feed de ${{ env.GITHUB_USERNAME }}..."
         dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg" \
-          --api-key ${{ secrets.GITHUB_TOKEN }} \
-          --source "github" \
-          --skip-duplicate # No falla si el paquete ya existe con la misma versión
+          --api-key "${{ secrets.GITHUB_TOKEN }}" \
+          --source "github-personal-feed" \
+          --skip-duplicate
 
     - name: Create GitHub Release
       uses: ncipollo/release-action@v1
       with:
-        tag: ${{ env.version_tag }} # Usa el tag v<VERSION> generado
+        tag: ${{ env.version_tag }}
         name: "Release ${{ env.version_tag }} (${{ env.PROJECT_NAME }})"
         body: |
           Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
+          El código fuente está en ${{ github.server_url }}/${{ github.repository }}.
+          El paquete NuGet ha sido publicado en el feed personal de ${{ env.GITHUB_USERNAME }}.
           Contiene el archivo NuGet generado.
-        artifacts: "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg" # Archivo a adjuntar al release
-        token: ${{ secrets.GITHUB_TOKEN }} # GITHUB_TOKEN tiene permisos para crear releases
-        allowUpdates: true # Permite actualizar un release si el tag ya existe (útil si re-ejecutas)
+        artifacts: "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg"
+        token: "${{ secrets.GITHUB_TOKEN }}" # GITHUB_TOKEN es generalmente suficiente aquí
+        allowUpdates: true
