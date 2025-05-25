@@ -1,51 +1,141 @@
-name: EcommerceApp - Release NuGet Package and Create GitHub Release 
+name: EcommerceApp - Create Tag, Release NuGet, and Create GitHub Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main # Se activa cuando haces push a la rama main
+  workflow_dispatch: # Permite la ejecución manual
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  PROJECT_CSPROJ_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
+  PACKAGE_ID: EcommerceApp.Api # Debe coincidir con el <PackageId> en tu .csproj
+  TARGET_FRAMEWORK: net8.0   # Para construir la ruta del .nupkg
 
 jobs:
-  release:
+  build-tag-release:
+    name: Build, Tag, Publish, and Release
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      packages: write
+      contents: write # Necesario para crear/pushear tags y para crear la GitHub Release
+      packages: write # Necesario para publicar en GitHub Packages
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Necesario para que git tag y ls-remote funcionen correctamente con todos los tags
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Extract version from tag
-        id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+      - name: Get Version from .csproj and Determine Tag
+        id: version_tag_logic
+        run: |
+          # 1. Extraer la versión actual del .csproj
+          VERSION_FROM_CSPROJ=$(grep -oP '(?<=<Version>).*(?=</Version>)' ${{ env.PROJECT_CSPROJ_PATH }} | head -n 1)
+          if [ -z "$VERSION_FROM_CSPROJ" ]; then
+            echo "Error: No se pudo extraer la versión del archivo ${{ env.PROJECT_CSPROJ_PATH }}"
+            exit 1
+          fi
+          echo "Versión base del .csproj: $VERSION_FROM_CSPROJ"
 
-      - name: Set version in .csproj
-        run: sed -i.bak "s|<Version>.*</Version>|<Version>${VERSION}</Version>|" EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
+          CURRENT_VERSION_FOR_TAGGING=$VERSION_FROM_CSPROJ
+          TAG_PREFIX="v"
+          PROPOSED_TAG="${TAG_PREFIX}${CURRENT_VERSION_FOR_TAGGING}"
 
-      - name: Clean sed backup file
-        run: rm EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj.bak
+          # 2. Bucle para encontrar un tag único incrementando la versión patch si es necesario
+          MAX_ATTEMPTS=10 # Evita bucles infinitos
+          ATTEMPT_COUNT=0
+          FINAL_TAG_TO_CREATE=$PROPOSED_TAG
+          FINAL_VERSION_FOR_RELEASE=$CURRENT_VERSION_FOR_TAGGING # Esta será la versión final usada
+
+          # Asegura que tengamos los tags locales actualizados con el remoto
+          git fetch --tags --force 
+          
+          while git rev-parse "refs/tags/$FINAL_TAG_TO_CREATE" >/dev/null 2>&1 || git ls-remote --tags origin "refs/tags/$FINAL_TAG_TO_CREATE" | grep -q "refs/tags/$FINAL_TAG_TO_CREATE"; do
+            echo "El tag $FINAL_TAG_TO_CREATE ya existe localmente o en el remoto. Incrementando versión patch."
+            ATTEMPT_COUNT=$((ATTEMPT_COUNT + 1))
+            if [ "$ATTEMPT_COUNT" -gt "$MAX_ATTEMPTS" ]; then
+              echo "Error: Se superó el número máximo de intentos para encontrar un tag único."
+              exit 1
+            fi
+            # Incrementa la parte patch de la versión (ej. 1.2.3 -> 1.2.4)
+            FINAL_VERSION_FOR_RELEASE=$(echo $FINAL_VERSION_FOR_RELEASE | awk -F. -v OFS=. '{$NF = $NF + 1 ; print}')
+            FINAL_TAG_TO_CREATE="${TAG_PREFIX}${FINAL_VERSION_FOR_RELEASE}"
+            echo "Nuevo intento de tag: $FINAL_TAG_TO_CREATE con versión: $FINAL_VERSION_FOR_RELEASE"
+          done
+          
+          echo "Tag final a crear: $FINAL_TAG_TO_CREATE"
+          echo "Versión final para la release y paquete: $FINAL_VERSION_FOR_RELEASE"
+
+          # Guarda las variables para los siguientes pasos
+          echo "PACKAGE_VERSION=$FINAL_VERSION_FOR_RELEASE" >> $GITHUB_ENV
+          echo "FINAL_TAG_NAME=$FINAL_TAG_TO_CREATE" >> $GITHUB_ENV
+      
+      # El paso 'Set version in .csproj' con sed ya no es estrictamente necesario si
+      # el 'dotnet pack' usa la versión del .csproj, y si la versión no se incrementó.
+      # Si la versión SE INCREMENTÓ en el bucle anterior, SÍ necesitamos actualizar el .csproj
+      # para que 'dotnet pack' use la nueva versión incrementada.
+      - name: Update version in .csproj if incremented
+        if: env.PACKAGE_VERSION != env.VERSION_FROM_CSPROJ # Solo si la versión cambió
+        run: |
+          echo "La versión fue incrementada a ${{ env.PACKAGE_VERSION }}. Actualizando .csproj..."
+          sed -i.bak "s|<Version>.*</Version>|<Version>${{ env.PACKAGE_VERSION }}</Version>|" ${{ env.PROJECT_CSPROJ_PATH }}
+          rm ${{ env.PROJECT_CSPROJ_PATH }}.bak
+          # Opcional: Commitear este cambio si es necesario, pero complica el flujo.
+          # Por ahora, solo lo cambiamos para la duración de este workflow.
+      
+      - name: Create and Push Git Tag
+        run: |
+          echo "Creando y empujando el tag: ${{ env.FINAL_TAG_NAME }}"
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git tag "${{ env.FINAL_TAG_NAME }}"
+          git push origin "${{ env.FINAL_TAG_NAME }}"
 
       - name: Restore dependencies
-        run: dotnet restore EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
+        run: dotnet restore ${{ env.PROJECT_CSPROJ_PATH }}
 
       - name: Build the project
-        run: dotnet build EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj --configuration Release
+        run: dotnet build ${{ env.PROJECT_CSPROJ_PATH }} --configuration Release --no-restore
+        # La versión correcta (original o incrementada) ya está en el .csproj
 
       - name: Pack the NuGet package
-        run: dotnet pack EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj -c Release
+        run: dotnet pack ${{ env.PROJECT_CSPROJ_PATH }} --configuration Release --no-build
+        # dotnet pack usará la versión que está en el .csproj
+
+      - name: Determine NuGet Package Path
+        id: nuget_package_path_resolver
+        run: |
+          PROJECT_DIR=$(dirname "${{ env.PROJECT_CSPROJ_PATH }}")
+          NUGET_FILE_FULL_PATH="$PROJECT_DIR/bin/Release/${{ env.TARGET_FRAMEWORK }}/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg"
+          echo "NUGET_FILE_FOR_ARTIFACTS=$NUGET_FILE_FULL_PATH" >> $GITHUB_ENV
+          echo "Ruta del paquete NuGet determinada: $NUGET_FILE_FULL_PATH"
+
+      - name: Debug - Verify NuGet Package
+        run: |
+          echo "Verificando la existencia del paquete en: ${{ env.NUGET_FILE_FOR_ARTIFACTS }}"
+          ls -lR $(dirname "${{ env.PROJECT_CSPROJ_PATH }}")/bin/Release/ # Lista para ver qué hay
+          if [ ! -f "${{ env.NUGET_FILE_FOR_ARTIFACTS }}" ]; then
+            echo "ERROR: El archivo NuGet no fue encontrado en la ubicación esperada."
+            exit 1
+          fi
+          echo "Paquete NuGet encontrado."
 
       - name: Publish package to GitHub Packages
-        run: dotnet nuget push EcommerceApp/EcommerceApp.Api/bin/Release/*.nupkg --skip-duplicate --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GH_TOKEN }}
+        run: |
+          dotnet nuget push "${{ env.NUGET_FILE_FOR_ARTIFACTS }}" \
+            --skip-duplicate \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key ${{ secrets.GITHUB_TOKEN }} # Usar GITHUB_TOKEN es lo recomendado aquí
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }}
-          files: "*/.nupkg"
+          tag_name: ${{ env.FINAL_TAG_NAME }} # Usa el tag que acabamos de crear y pushear
+          name: Release ${{ env.FINAL_TAG_NAME }}
+          files: ${{ env.NUGET_FILE_FOR_ARTIFACTS }}
+          # El token GITHUB_TOKEN implícito es suficiente si los permisos del job son correctos
