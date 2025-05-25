@@ -3,139 +3,176 @@ name: EcommerceApp - Create Tag, Release NuGet, and Create GitHub Release
 on:
   push:
     branches:
-      - main # Se activa cuando haces push a la rama main
-  workflow_dispatch: # Permite la ejecución manual
+      - main
+  workflow_dispatch:
 
 env:
   DOTNET_VERSION: '8.0.x'
   PROJECT_CSPROJ_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
-  PACKAGE_ID: EcommerceApp.Api # Debe coincidir con el <PackageId> en tu .csproj
-  TARGET_FRAMEWORK: net8.0   # Para construir la ruta del .nupkg
+  PACKAGE_ID: EcommerceApp.Api
+  TARGET_FRAMEWORK: net8.0
 
 jobs:
   build-tag-release:
     name: Build, Tag, Publish, and Release
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Necesario para crear/pushear tags y para crear la GitHub Release
-      packages: write # Necesario para publicar en GitHub Packages
+      contents: write
+      packages: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Necesario para que git tag y ls-remote funcionen correctamente con todos los tags
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Get Version from .csproj and Determine Tag
-        id: version_tag_logic
-        run: |
-          # 1. Extraer la versión actual del .csproj
-          VERSION_FROM_CSPROJ=$(grep -oP '(?<=<Version>).*(?=</Version>)' ${{ env.PROJECT_CSPROJ_PATH }} | head -n 1)
-          if [ -z "$VERSION_FROM_CSPROJ" ]; then
-            echo "Error: No se pudo extraer la versión del archivo ${{ env.PROJECT_CSPROJ_PATH }}"
+    - name: Debug - Verify Project Paths Before Restore
+      run: |
+        echo "Verificando PROJECT_CSPROJ_PATH: ${{ env.PROJECT_CSPROJ_PATH }}"
+        if [ ! -f "${{ env.PROJECT_CSPROJ_PATH }}" ]; then
+          echo "ERROR: PROJECT_CSPROJ_PATH (${{ env.PROJECT_CSPROJ_PATH }}) no encontrado."
+          ls -lA $(dirname "${{ env.PROJECT_CSPROJ_PATH }}") || echo "No se pudo listar el directorio de PROJECT_CSPROJ_PATH"
+          exit 1
+        fi
+        echo "PROJECT_CSPROJ_PATH encontrado."
+
+    - name: Get Version from .csproj and Determine Tag
+      id: version_tag_logic
+      run: |
+        BASE_VERSION_FROM_CSPROJ=$(grep -oP '(?<=<Version>).*(?=</Version>)' ${{ env.PROJECT_CSPROJ_PATH }} | head -n 1)
+        if [ -z "$BASE_VERSION_FROM_CSPROJ" ]; then
+          echo "Error: No se pudo extraer la versión del archivo ${{ env.PROJECT_CSPROJ_PATH }}"
+          exit 1
+        fi
+        echo "Versión base del .csproj: $BASE_VERSION_FROM_CSPROJ"
+
+        CURRENT_VERSION_FOR_TAGGING=$BASE_VERSION_FROM_CSPROJ
+        TAG_PREFIX="v"
+        PROPOSED_TAG="${TAG_PREFIX}${CURRENT_VERSION_FOR_TAGGING}"
+
+        MAX_ATTEMPTS=20
+        ATTEMPT_COUNT=0
+        FINAL_TAG_TO_CREATE=$PROPOSED_TAG
+        FINAL_VERSION_FOR_RELEASE=$CURRENT_VERSION_FOR_TAGGING
+
+        git fetch --tags --force 
+        
+        while git rev-parse "refs/tags/$FINAL_TAG_TO_CREATE" >/dev/null 2>&1 || git ls-remote --tags origin "refs/tags/$FINAL_TAG_TO_CREATE" | grep -q "refs/tags/$FINAL_TAG_TO_CREATE"; do
+          echo "El tag $FINAL_TAG_TO_CREATE ya existe localmente o en el remoto. Incrementando versión patch."
+          ATTEMPT_COUNT=$((ATTEMPT_COUNT + 1))
+          if [ "$ATTEMPT_COUNT" -gt "$MAX_ATTEMPTS" ]; then
+            echo "Error: Se superó el número máximo de intentos para encontrar un tag único."
             exit 1
           fi
-          echo "Versión base del .csproj: $VERSION_FROM_CSPROJ"
+          FINAL_VERSION_FOR_RELEASE=$(echo $FINAL_VERSION_FOR_RELEASE | awk -F. -v OFS=. '{$NF = $NF + 1 ; print}')
+          FINAL_TAG_TO_CREATE="${TAG_PREFIX}${FINAL_VERSION_FOR_RELEASE}"
+          echo "Nuevo intento de tag: $FINAL_TAG_TO_CREATE con versión: $FINAL_VERSION_FOR_RELEASE"
+        done
+        
+        echo "Tag final a crear: $FINAL_TAG_TO_CREATE"
+        echo "Versión final para la release y paquete: $FINAL_VERSION_FOR_RELEASE"
 
-          CURRENT_VERSION_FOR_TAGGING=$VERSION_FROM_CSPROJ
-          TAG_PREFIX="v"
-          PROPOSED_TAG="${TAG_PREFIX}${CURRENT_VERSION_FOR_TAGGING}"
-
-          # 2. Bucle para encontrar un tag único incrementando la versión patch si es necesario
-          MAX_ATTEMPTS=10 # Evita bucles infinitos
-          ATTEMPT_COUNT=0
-          FINAL_TAG_TO_CREATE=$PROPOSED_TAG
-          FINAL_VERSION_FOR_RELEASE=$CURRENT_VERSION_FOR_TAGGING # Esta será la versión final usada
-
-          # Asegura que tengamos los tags locales actualizados con el remoto
-          git fetch --tags --force 
-          
-          while git rev-parse "refs/tags/$FINAL_TAG_TO_CREATE" >/dev/null 2>&1 || git ls-remote --tags origin "refs/tags/$FINAL_TAG_TO_CREATE" | grep -q "refs/tags/$FINAL_TAG_TO_CREATE"; do
-            echo "El tag $FINAL_TAG_TO_CREATE ya existe localmente o en el remoto. Incrementando versión patch."
-            ATTEMPT_COUNT=$((ATTEMPT_COUNT + 1))
-            if [ "$ATTEMPT_COUNT" -gt "$MAX_ATTEMPTS" ]; then
-              echo "Error: Se superó el número máximo de intentos para encontrar un tag único."
-              exit 1
-            fi
-            # Incrementa la parte patch de la versión (ej. 1.2.3 -> 1.2.4)
-            FINAL_VERSION_FOR_RELEASE=$(echo $FINAL_VERSION_FOR_RELEASE | awk -F. -v OFS=. '{$NF = $NF + 1 ; print}')
-            FINAL_TAG_TO_CREATE="${TAG_PREFIX}${FINAL_VERSION_FOR_RELEASE}"
-            echo "Nuevo intento de tag: $FINAL_TAG_TO_CREATE con versión: $FINAL_VERSION_FOR_RELEASE"
-          done
-          
-          echo "Tag final a crear: $FINAL_TAG_TO_CREATE"
-          echo "Versión final para la release y paquete: $FINAL_VERSION_FOR_RELEASE"
-
-          # Guarda las variables para los siguientes pasos
-          echo "PACKAGE_VERSION=$FINAL_VERSION_FOR_RELEASE" >> $GITHUB_ENV
-          echo "FINAL_TAG_NAME=$FINAL_TAG_TO_CREATE" >> $GITHUB_ENV
+        echo "PACKAGE_VERSION=$FINAL_VERSION_FOR_RELEASE" >> $GITHUB_ENV
+        echo "FINAL_TAG_NAME=$FINAL_TAG_TO_CREATE" >> $GITHUB_ENV
+        echo "BASE_VERSION=$BASE_VERSION_FROM_CSPROJ" >> $GITHUB_ENV
       
-      # El paso 'Set version in .csproj' con sed ya no es estrictamente necesario si
-      # el 'dotnet pack' usa la versión del .csproj, y si la versión no se incrementó.
-      # Si la versión SE INCREMENTÓ en el bucle anterior, SÍ necesitamos actualizar el .csproj
-      # para que 'dotnet pack' use la nueva versión incrementada.
-      - name: Update version in .csproj if incremented
-        if: env.PACKAGE_VERSION != env.VERSION_FROM_CSPROJ # Solo si la versión cambió
-        run: |
-          echo "La versión fue incrementada a ${{ env.PACKAGE_VERSION }}. Actualizando .csproj..."
-          sed -i.bak "s|<Version>.*</Version>|<Version>${{ env.PACKAGE_VERSION }}</Version>|" ${{ env.PROJECT_CSPROJ_PATH }}
-          rm ${{ env.PROJECT_CSPROJ_PATH }}.bak
-          # Opcional: Commitear este cambio si es necesario, pero complica el flujo.
-          # Por ahora, solo lo cambiamos para la duración de este workflow.
+    - name: Update version in .csproj if incremented
+      if: env.PACKAGE_VERSION != env.BASE_VERSION
+      run: |
+        echo "La versión fue incrementada de ${{ env.BASE_VERSION }} a ${{ env.PACKAGE_VERSION }}. Actualizando .csproj..."
+        sed -i.bak "s|<Version>.*</Version>|<Version>${{ env.PACKAGE_VERSION }}</Version>|" ${{ env.PROJECT_CSPROJ_PATH }}
+        rm ${{ env.PROJECT_CSPROJ_PATH }}.bak
+        echo "Contenido de <Version> en .csproj después de sed:"
+        grep "<Version>" ${{ env.PROJECT_CSPROJ_PATH }}
       
-      - name: Create and Push Git Tag
-        run: |
-          echo "Creando y empujando el tag: ${{ env.FINAL_TAG_NAME }}"
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
-          git tag "${{ env.FINAL_TAG_NAME }}"
-          git push origin "${{ env.FINAL_TAG_NAME }}"
+    - name: Create and Push Git Tag
+      run: |
+        echo "Creando y empujando el tag: ${{ env.FINAL_TAG_NAME }}"
+        git config user.name "GitHub Action"
+        git config user.email "action@github.com"
+        git tag "${{ env.FINAL_TAG_NAME }}"
+        git push origin "${{ env.FINAL_TAG_NAME }}"
 
-      - name: Restore dependencies
-        run: dotnet restore ${{ env.PROJECT_CSPROJ_PATH }}
+    - name: Restore dependencies
+      run: dotnet restore ${{ env.PROJECT_CSPROJ_PATH }}
 
-      - name: Build the project
-        run: dotnet build ${{ env.PROJECT_CSPROJ_PATH }} --configuration Release --no-restore
-        # La versión correcta (original o incrementada) ya está en el .csproj
+    - name: Build the project
+      run: dotnet build ${{ env.PROJECT_CSPROJ_PATH }} --configuration Release --no-restore
 
-      - name: Pack the NuGet package
-        run: dotnet pack ${{ env.PROJECT_CSPROJ_PATH }} --configuration Release --no-build
-        # dotnet pack usará la versión que está en el .csproj
+    - name: Create NuGet Package
+      run: |
+        echo "Empaquetando ${{ env.PROJECT_NAME }} con versión: ${{ env.PACKAGE_VERSION }}"
+        if [ ! -f "${{ env.PROJECT_CSPROJ_PATH }}" ]; then
+          echo "ERROR CRÍTICO: El archivo .csproj en ${{ env.PROJECT_CSPROJ_PATH }} no existe. No se puede empaquetar."
+          exit 1
+        fi
+        dotnet pack ${{ env.PROJECT_CSPROJ_PATH }} \
+          -c Release
 
-      - name: Determine NuGet Package Path
-        id: nuget_package_path_resolver
-        run: |
-          PROJECT_DIR=$(dirname "${{ env.PROJECT_CSPROJ_PATH }}")
-          NUGET_FILE_FULL_PATH="$PROJECT_DIR/bin/Release/${{ env.TARGET_FRAMEWORK }}/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg"
-          echo "NUGET_FILE_FOR_ARTIFACTS=$NUGET_FILE_FULL_PATH" >> $GITHUB_ENV
-          echo "Ruta del paquete NuGet determinada: $NUGET_FILE_FULL_PATH"
+    - name: Determine NuGet Package Path
+      id: nuget_paths
+      run: |
+        PROJECT_DIR=$(dirname "${{ env.PROJECT_CSPROJ_PATH }}")
+        NUGET_FILE_FULL_PATH="$PROJECT_DIR/bin/Release/${{ env.TARGET_FRAMEWORK }}/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg"
+        echo "NUGET_FILE_FOR_UPLOAD=$NUGET_FILE_FULL_PATH" >> $GITHUB_ENV
+        echo "Ruta del paquete NuGet determinada: $NUGET_FILE_FULL_PATH"
 
-      - name: Debug - Verify NuGet Package
-        run: |
-          echo "Verificando la existencia del paquete en: ${{ env.NUGET_FILE_FOR_ARTIFACTS }}"
-          ls -lR $(dirname "${{ env.PROJECT_CSPROJ_PATH }}")/bin/Release/ # Lista para ver qué hay
-          if [ ! -f "${{ env.NUGET_FILE_FOR_ARTIFACTS }}" ]; then
-            echo "ERROR: El archivo NuGet no fue encontrado en la ubicación esperada."
+    - name: Debug - Verify NuGet Package Location and Content
+      run: |
+        EXPECTED_NUPKG_FILE="${{ env.NUGET_FILE_FOR_UPLOAD }}"
+
+        echo "Verificando archivo nupkg específico: $EXPECTED_NUPKG_FILE"
+        if [ -f "$EXPECTED_NUPKG_FILE" ]; then
+            echo "OK: Archivo NUPKG '$EXPECTED_NUPKG_FILE' ENCONTRADO."
+            PROJECT_DIR_OF_NUPKG=$(dirname "$EXPECTED_NUPKG_FILE")
+            echo "Contenido de '$PROJECT_DIR_OF_NUPKG':"
+            ls -lA "$PROJECT_DIR_OF_NUPKG"
+        else
+            echo "ERROR: Archivo NUPKG '$EXPECTED_NUPKG_FILE' NO ENCONTRADO."
+            PROJECT_DIR_BASE=$(dirname "${{ env.PROJECT_CSPROJ_PATH }}")
+            echo "Intentando listar directorios relevantes para depuración:"
+            echo "Listando contenido de $PROJECT_DIR_BASE/bin/Release/ :"
+            ls -lA "$PROJECT_DIR_BASE/bin/Release/" || echo "No se pudo listar $PROJECT_DIR_BASE/bin/Release/"
+            echo "Listando contenido de $PROJECT_DIR_BASE/bin/Release/${{ env.TARGET_FRAMEWORK }}/ :"
+            ls -lA "$PROJECT_DIR_BASE/bin/Release/${{ env.TARGET_FRAMEWORK }}/" || echo "No se pudo listar $PROJECT_DIR_BASE/bin/Release/${{ env.TARGET_FRAMEWORK }}/"
             exit 1
-          fi
-          echo "Paquete NuGet encontrado."
+        fi
 
-      - name: Publish package to GitHub Packages
-        run: |
-          dotnet nuget push "${{ env.NUGET_FILE_FOR_ARTIFACTS }}" \
-            --skip-duplicate \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key ${{ secrets.GITHUB_TOKEN }} # Usar GITHUB_TOKEN es lo recomendado aquí
+    - name: Setup NuGet Source for GitHub Packages
+      run: |
+        dotnet nuget add source --username ${{ github.actor }} \
+          --password ${{ secrets.GITHUB_TOKEN }} \
+          --store-password-in-clear-text \
+          --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ env.FINAL_TAG_NAME }} # Usa el tag que acabamos de crear y pushear
-          name: Release ${{ env.FINAL_TAG_NAME }}
-          files: ${{ env.NUGET_FILE_FOR_ARTIFACTS }}
-          # El token GITHUB_TOKEN implícito es suficiente si los permisos del job son correctos
+    - name: Publish NuGet Package to GitHub Packages
+      run: |
+        NUGET_FILE_PATH="${{ env.NUGET_FILE_FOR_UPLOAD }}"
+
+        echo "Intentando publicar: $NUGET_FILE_PATH"
+        if [ ! -f "$NUGET_FILE_PATH" ]; then
+            echo "ERROR CRÍTICO ANTES DE PUSH: El archivo '$NUGET_FILE_PATH' no existe."
+            exit 1
+        fi
+        
+        dotnet nuget push "$NUGET_FILE_PATH" \
+          --api-key ${{ secrets.GITHUB_TOKEN }} \
+          --source "github" \
+          --skip-duplicate
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ env.FINAL_TAG_NAME }}
+        name: "Release ${{ env.FINAL_TAG_NAME }}"
+        body: |
+          Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
+          Contiene el archivo NuGet generado.
+        artifacts: ${{ env.NUGET_FILE_FOR_UPLOAD }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
