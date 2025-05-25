@@ -1,0 +1,60 @@
+name: Publish Coverage Report
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore EcommerceApp.sln
+      working-directory: EcommerceApp     
+
+    - name: Build the project
+      run: dotnet build EcommerceApp.sln --configuration Release
+      working-directory: EcommerceApp
+
+    - name: Run tests and collect code coverage
+      run: dotnet test EcommerceApp.sln --configuration Release --collect:"XPlat Code Coverage"
+      working-directory: EcommerceApp
+
+    - name: Install ReportGenerator
+      run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+    - name: Add .NET tools to PATH
+      run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+    - name: Generate coverage report
+      run: |
+        reportgenerator "-reports:**/coverage.cobertura.xml" "-targetdir:coverage-report" -reporttypes:HTML
+      working-directory: EcommerceApp 
+
+    - name: Publish coverage report to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: EcommerceApp/coverage-report 
+        publish_branch: gh-pages           
+        destination_dir: cobertura           
+        keep_files: true         
+        allow_empty_commit: false
+        force_orphan: false              
+        enable_jekyll: false
+        disable_nojekyll: false             
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'

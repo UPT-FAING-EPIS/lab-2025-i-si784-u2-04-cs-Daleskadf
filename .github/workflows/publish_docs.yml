@@ -1,0 +1,48 @@
+name: Publicar Doc con docfx 
+
+on:
+  workflow_run:
+    workflows: ["Publish Coverage Report"] 
+    types:
+      - completed
+
+jobs:
+  docfx_and_publish: 
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4 
+      with:
+        ref: ${{ github.event.workflow_run.head_sha }}
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install DocFx globally
+      run: dotnet tool update -g docfx --version 2.75.2
+
+    - name: Add .NET tools to PATH (if not already picked up)
+      run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+    - name: Generate metadata for DocFx
+      run: docfx metadata EcommerceApp/docfx.json
+
+    - name: Build DocFx Site
+      run: docfx build EcommerceApp/docfx.json 
+
+    - name: Publish DocFx site to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: EcommerceApp/_site
+        publish_branch: gh-pages
+        keep_files: true # Mantiene el informe de cobertura que ya está en gh-pages/cobertura/
+        allow_empty_commit: false
+        force_orphan: false 
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        enable_jekyll: false
+        disable_nojekyll: false

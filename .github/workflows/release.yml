@@ -1,56 +1,68 @@
-name: EcommerceApp.Api - Release NuGet Package to GitHub Packages
-
-on:
-  push:
-    tags:
-      - 'v*' 
+name: Release Version EcommerceApp 
 
 env:
-  PROJECT_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
-  PACKAGE_ID: EcommerceApp.Api                     
-  DOTNET_VERSION: '8.0.x'                     
-
+  DOTNET_VERSION: 8.0
+  DOTNET_ROOT: /usr/share/dotnet 
+on:
+  push 
 jobs:
   release:
+    name: Build and Release EcommerceApp Package 
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write 
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4 
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+    - uses: snyk/actions/setup@master 
 
-      - name: Extract version from tag
-        id: version_extractor
-        run: echo "PACKAGE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore dependencies
-        run: dotnet restore ${{ env.PROJECT_PATH }}
+    - name: Run Unit Tests
+      run: dotnet test EcommerceApp/EcommerceApp.Api.Tests/EcommerceApp.Api.Tests.csproj --logger trx 
 
-      - name: Build the project
-        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release -p:Version=${{ env.PACKAGE_VERSION }} --no-restore
+    - name: Build project
+      run: dotnet build EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj -c Release 
 
-      - name: Pack the NuGet package
-        id: pack
-        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration Release -p:Version=${{ env.PACKAGE_VERSION }} --no-build -o ./nuget-output
+    - name: Create Release Package
+      run: dotnet pack EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj -c Release -o out
 
-      - name: Publish package to GitHub Packages
-        run: |
-          dotnet nuget push ./nuget-output/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg \
-            --skip-duplicate \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key ${{ secrets.GH_TOKEN }}
+    - name: Create Git tag
+      run: |
+        VERSION=$(grep -oP '(?<=<Version>)(.*?)(?=</Version>)' EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj) 
+        echo "Current Version: $VERSION"
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Release ${{ github.ref_name }} 
-          body: "Release of API version ${{ env.PACKAGE_VERSION }}. See CHANGELOG.md for details." 
-          files: ./nuget-output/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg
+        TAG="v${VERSION}"
+
+        while git ls-remote --tags origin "$TAG" | grep -q "$TAG"; do
+          echo "Tag $TAG already exists. Incrementing version."
+          # Si el tag existe, incrementa la versión
+          VERSION_INCREMENTED=$(echo $VERSION | awk -F. -v OFS=. '{$NF++;print}')
+          TAG="v${VERSION_INCREMENTED}"
+          VERSION=$VERSION_INCREMENTED  # Actualiza la versión para seguir incrementando
+          echo "New version with increment: $TAG"
+        done
+        echo "NAME=$TAG" >> $GITHUB_ENV
+        # Crear el nuevo tag
+        # Configurar git user para el tag si es necesario (no estaba en el original, pero puede ser requerido)
+        # git config user.name "GitHub Action"
+        # git config user.email "action@github.com"
+        git tag $TAG
+        git push origin $TAG
+
+    - name: tags available
+      run: |
+        git fetch --tags
+        echo "Tags available after fetch:"
+        git tag -l # MANTENIDO
+
+    - name: Publish Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ env.NAME }}
+        name: "Release ${{ env.NAME }}"
+        files: out/*.nupkg
+        token: ${{ secrets.GH_TOKEN }} 
