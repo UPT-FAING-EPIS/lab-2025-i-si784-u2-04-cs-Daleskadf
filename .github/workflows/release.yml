@@ -146,7 +146,7 @@ jobs:
     - name: Setup NuGet Source for GitHub Packages
       run: |
         dotnet nuget add source --username ${{ github.actor }} \
-          --password ${{ secrets.GITHUB_TOKEN }} \
+          --password ${{ secrets.GH_TOKEN }} \
           --store-password-in-clear-text \
           --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
@@ -161,7 +161,7 @@ jobs:
         fi
         
         dotnet nuget push "$NUGET_FILE_PATH" \
-          --api-key ${{ secrets.GITHUB_TOKEN }} \
+          --api-key ${{ secrets.GH_TOKEN }} \
           --source "github" \
           --skip-duplicate
 
@@ -174,5 +174,5 @@ jobs:
           Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
           Contiene el archivo NuGet generado.
         artifacts: ${{ env.NUGET_FILE_FOR_UPLOAD }} # Esta variable ahora tiene la ruta correcta
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GH_TOKEN }}
         allowUpdates: true
