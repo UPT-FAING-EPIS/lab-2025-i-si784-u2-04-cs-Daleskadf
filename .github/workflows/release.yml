@@ -1,151 +1,51 @@
-name: EcommerceApp - Release NuGet Package and Create GitHub Release
-
-env:
-  DOTNET_VERSION: '8.0.x'
-  PROJECT_NAME: EcommerceApp.Api
-  PROJECT_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
-  TEST_PROJECT_PATH: EcommerceApp/EcommerceApp.Tests/EcommerceApp.Tests.csproj
+name: EcommerceApp - Release NuGet Package and Create GitHub Release 
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    tags:
+      - 'v*'
 
 jobs:
-  build-test-publish-release:
-    name: Build, Test, Publish EcommerceApp Package and Create Release
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
       packages: write
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
-    - name: Debug - Verify Project Paths Before Restore
-      run: |
-        echo "Verificando PROJECT_PATH: ${{ env.PROJECT_PATH }}"
-        if [ ! -f "${{ env.PROJECT_PATH }}" ]; then
-          echo "ERROR: PROJECT_PATH (${{ env.PROJECT_PATH }}) no encontrado."
-          ls -lA $(dirname "${{ env.PROJECT_PATH }}") || echo "No se pudo listar el directorio de PROJECT_PATH"
-          exit 1
-        fi
-        echo "PROJECT_PATH encontrado."
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
-        echo "Verificando TEST_PROJECT_PATH: ${{ env.TEST_PROJECT_PATH }}"
-        if [ ! -f "${{ env.TEST_PROJECT_PATH }}" ]; then
-          echo "ERROR: TEST_PROJECT_PATH (${{ env.TEST_PROJECT_PATH }}) no encontrado."
-          ls -lA $(dirname "${{ env.TEST_PROJECT_PATH }}") || echo "No se pudo listar el directorio de TEST_PROJECT_PATH"
-          exit 1
-        fi
-        echo "TEST_PROJECT_PATH encontrado."
+      - name: Set version in .csproj
+        run: sed -i.bak "s|<Version>.*</Version>|<Version>${VERSION}</Version>|" EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
 
-    - name: Restore dependencies
-      run: dotnet restore ${{ env.PROJECT_PATH }} && dotnet restore ${{ env.TEST_PROJECT_PATH }}
+      - name: Clean sed backup file
+        run: rm EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj.bak
 
-    - name: Run Unit Tests
-      run: dotnet test ${{ env.TEST_PROJECT_PATH }} --no-restore --logger trx
+      - name: Restore dependencies
+        run: dotnet restore EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
 
-    - name: Build project
-      run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+      - name: Build the project
+        run: dotnet build EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj --configuration Release
 
-    - name: Get Package Version from .csproj
-      id: package_info
-      run: |
-        if [ ! -f "${{ env.PROJECT_PATH }}" ]; then
-          echo "ERROR CRÍTICO: El archivo .csproj en ${{ env.PROJECT_PATH }} no existe. No se puede extraer la versión."
-          exit 1
-        fi
-        VERSION=$(grep -oP '(?<=<Version>).*(?=</Version>)' ${{ env.PROJECT_PATH }} | head -n 1)
+      - name: Pack the NuGet package
+        run: dotnet pack EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj -c Release
 
-        if [ -z "$VERSION" ]; then
-          echo "Error: No se pudo extraer la etiqueta <Version> del archivo ${{ env.PROJECT_PATH }}"
-          exit 1
-        fi
+      - name: Publish package to GitHub Packages
+        run: dotnet nuget push EcommerceApp/EcommerceApp.Api/bin/Release/*.nupkg --skip-duplicate --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key ${{ secrets.GH_TOKEN }}
 
-        echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
-        echo "version_tag=v$VERSION" >> $GITHUB_ENV
-        echo "Versión del paquete leída del .csproj: $VERSION"
-
-    - name: Create NuGet Package
-      run: |
-        echo "Empaquetando ${{ env.PROJECT_NAME }} con versión: ${{ env.PACKAGE_VERSION }}"
-        if [ ! -f "${{ env.PROJECT_PATH }}" ]; then
-          echo "ERROR CRÍTICO: El archivo .csproj en ${{ env.PROJECT_PATH }} no existe. No se puede empaquetar."
-          exit 1
-        fi
-        dotnet pack ${{ env.PROJECT_PATH }} \
-          -c Release \
-          --no-build
-
-    - name: Determine NuGet Package Path
-      id: nuget_paths # Damos un ID a este paso
-      run: |
-        PROJECT_DIR=$(dirname "${{ env.PROJECT_PATH }}")
-        NUGET_FILE_FULL_PATH="$PROJECT_DIR/bin/Release/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg"
-        echo "NUGET_FILE_FOR_UPLOAD=$NUGET_FILE_FULL_PATH" >> $GITHUB_ENV
-        echo "Ruta del paquete NuGet determinada: $NUGET_FILE_FULL_PATH"
-
-    - name: Debug - Verify NuGet Package Location and Content
-      run: |
-        EXPECTED_NUPKG_FILE="${{ env.NUGET_FILE_FOR_UPLOAD }}" # Usamos la variable de entorno del paso anterior
-
-        echo "Verificando archivo nupkg específico: $EXPECTED_NUPKG_FILE"
-        if [ -f "$EXPECTED_NUPKG_FILE" ]; then
-            echo "OK: Archivo NUPKG '$EXPECTED_NUPKG_FILE' ENCONTRADO."
-            PROJECT_DIR_OF_NUPKG=$(dirname "$EXPECTED_NUPKG_FILE")
-            echo "Contenido de '$PROJECT_DIR_OF_NUPKG':"
-            ls -lA "$PROJECT_DIR_OF_NUPKG"
-        else
-            echo "ERROR: Archivo NUPKG '$EXPECTED_NUPKG_FILE' NO ENCONTRADO."
-            # Intenta listar directorios relevantes para ayudar a depurar si falla
-            PROJECT_DIR_BASE=$(dirname "${{ env.PROJECT_PATH }}")
-            ls -lA "$PROJECT_DIR_BASE/bin/Release/" || echo "No se pudo listar $PROJECT_DIR_BASE/bin/Release/"
-            ls -lA "$PROJECT_DIR_BASE/bin/" || echo "No se pudo listar $PROJECT_DIR_BASE/bin/"
-            ls -lA "$PROJECT_DIR_BASE" || echo "No se pudo listar $PROJECT_DIR_BASE"
-            exit 1
-        fi
-
-    - name: Setup NuGet Source for GitHub Packages
-      run: |
-        dotnet nuget add source --username ${{ github.actor }} \
-          --password ${{ secrets.GH_TOKEN }} \
-          --store-password-in-clear-text \
-          --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
-
-    - name: Publish NuGet Package to GitHub Packages
-      run: |
-        NUGET_FILE_PATH="${{ env.NUGET_FILE_FOR_UPLOAD }}" # Usamos la variable de entorno
-
-        echo "Intentando publicar: $NUGET_FILE_PATH"
-        if [ ! -f "$NUGET_FILE_PATH" ]; then
-            echo "ERROR CRÍTICO ANTES DE PUSH: El archivo '$NUGET_FILE_PATH' no existe."
-            exit 1
-        fi
-        
-        dotnet nuget push "$NUGET_FILE_PATH" \
-          --api-key ${{ secrets.GH_TOKEN }} \
-          --source "github" \
-          --skip-duplicate
-
-    - name: Create GitHub Release
-      uses: ncipollo/release-action@v1
-      with:
-        tag: ${{ env.version_tag }}
-        name: "Release ${{ env.version_tag }} (${{ env.PROJECT_NAME }})"
-        body: |
-          Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
-          Contiene el archivo NuGet generado.
-        # AHORA USAMOS LA VARIABLE DE ENTORNO SIMPLE
-        artifacts: ${{ env.NUGET_FILE_FOR_UPLOAD }}
-        token: ${{ secrets.GH_TOKEN }}
-        allowUpdates: true
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          files: "*/.nupkg"
