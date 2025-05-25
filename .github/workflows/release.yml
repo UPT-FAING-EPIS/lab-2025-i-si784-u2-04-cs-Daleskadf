@@ -10,11 +10,12 @@ env:
   DOTNET_VERSION: '8.0.x'
   PROJECT_CSPROJ_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
   PACKAGE_ID: EcommerceApp.Api
+  # TARGET_FRAMEWORK: net8.0 # Ya no es estrictamente necesario para la ruta del nupkg si está en bin/Release
 
 jobs:
   build-tag-release:
     name: Build, Tag, Publish, and Release
-
+    
     runs-on: ubuntu-latest
     permissions:
       contents: write
