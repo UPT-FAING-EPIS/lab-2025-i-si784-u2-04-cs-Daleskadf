@@ -66,14 +66,14 @@ jobs:
     - name: Setup NuGet Source for GitHub Packages
       run: |
         dotnet nuget add source --username ${{ github.actor }} \
-          --password ${{ secrets.GH_TOKEN }} \
+          --password ${{ secrets.GHTOKEN }} \
           --store-password-in-clear-text \
           --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
 
     - name: Publish NuGet Package to GitHub Packages
       run: |
         dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg" \
-          --api-key ${{ secrets.GH_TOKEN }} \
+          --api-key ${{ secrets.GHTOKEN }} \
           --source "github" \
           --skip-duplicate
 
@@ -86,5 +86,5 @@ jobs:
           Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
           Contiene el archivo NuGet generado.
         artifacts: "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg"
-        token: ${{ secrets.GH_TOKEN }}
+        token: ${{ secrets.GHTOKEN }}
         allowUpdates: true
