@@ -10,7 +10,7 @@ env:
   DOTNET_VERSION: '8.0.x'
   PROJECT_CSPROJ_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
   PACKAGE_ID: EcommerceApp.Api
-  TARGET_FRAMEWORK: net8.0
+  # TARGET_FRAMEWORK: net8.0 # Ya no es estrictamente necesario para la ruta del nupkg si está en bin/Release
 
 jobs:
   build-tag-release:
@@ -112,13 +112,14 @@ jobs:
           exit 1
         fi
         dotnet pack ${{ env.PROJECT_CSPROJ_PATH }} \
-          -c Release
+          -c Release # Eliminado --no-build
 
     - name: Determine NuGet Package Path
       id: nuget_paths
       run: |
         PROJECT_DIR=$(dirname "${{ env.PROJECT_CSPROJ_PATH }}")
-        NUGET_FILE_FULL_PATH="$PROJECT_DIR/bin/Release/${{ env.TARGET_FRAMEWORK }}/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg"
+        # AJUSTADO: Buscamos el .nupkg directamente en bin/Release/
+        NUGET_FILE_FULL_PATH="$PROJECT_DIR/bin/Release/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg"
         echo "NUGET_FILE_FOR_UPLOAD=$NUGET_FILE_FULL_PATH" >> $GITHUB_ENV
         echo "Ruta del paquete NuGet determinada: $NUGET_FILE_FULL_PATH"
 
@@ -129,17 +130,16 @@ jobs:
         echo "Verificando archivo nupkg específico: $EXPECTED_NUPKG_FILE"
         if [ -f "$EXPECTED_NUPKG_FILE" ]; then
             echo "OK: Archivo NUPKG '$EXPECTED_NUPKG_FILE' ENCONTRADO."
-            PROJECT_DIR_OF_NUPKG=$(dirname "$EXPECTED_NUPKG_FILE")
-            echo "Contenido de '$PROJECT_DIR_OF_NUPKG':"
-            ls -lA "$PROJECT_DIR_OF_NUPKG"
+            NUPKG_CONTAINING_DIR=$(dirname "$EXPECTED_NUPKG_FILE")
+            echo "Contenido de '$NUPKG_CONTAINING_DIR':"
+            ls -lA "$NUPKG_CONTAINING_DIR"
         else
             echo "ERROR: Archivo NUPKG '$EXPECTED_NUPKG_FILE' NO ENCONTRADO."
             PROJECT_DIR_BASE=$(dirname "${{ env.PROJECT_CSPROJ_PATH }}")
             echo "Intentando listar directorios relevantes para depuración:"
             echo "Listando contenido de $PROJECT_DIR_BASE/bin/Release/ :"
             ls -lA "$PROJECT_DIR_BASE/bin/Release/" || echo "No se pudo listar $PROJECT_DIR_BASE/bin/Release/"
-            echo "Listando contenido de $PROJECT_DIR_BASE/bin/Release/${{ env.TARGET_FRAMEWORK }}/ :"
-            ls -lA "$PROJECT_DIR_BASE/bin/Release/${{ env.TARGET_FRAMEWORK }}/" || echo "No se pudo listar $PROJECT_DIR_BASE/bin/Release/${{ env.TARGET_FRAMEWORK }}/"
+            # Ya no necesitamos listar la subcarpeta del TFM si el paquete no está allí
             exit 1
         fi
 
@@ -152,7 +152,7 @@ jobs:
 
     - name: Publish NuGet Package to GitHub Packages
       run: |
-        NUGET_FILE_PATH="${{ env.NUGET_FILE_FOR_UPLOAD }}"
+        NUGET_FILE_PATH="${{ env.NUGET_FILE_FOR_UPLOAD }}" # Esta variable ahora tiene la ruta correcta
 
         echo "Intentando publicar: $NUGET_FILE_PATH"
         if [ ! -f "$NUGET_FILE_PATH" ]; then
@@ -173,6 +173,6 @@ jobs:
         body: |
           Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
           Contiene el archivo NuGet generado.
-        artifacts: ${{ env.NUGET_FILE_FOR_UPLOAD }}
+        artifacts: ${{ env.NUGET_FILE_FOR_UPLOAD }} # Esta variable ahora tiene la ruta correcta
         token: ${{ secrets.GITHUB_TOKEN }}
         allowUpdates: true
