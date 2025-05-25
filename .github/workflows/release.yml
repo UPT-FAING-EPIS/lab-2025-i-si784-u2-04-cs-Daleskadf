@@ -1,99 +1,56 @@
-name: Bank - Release NuGet Package to Personal Daleskadf Feed
-
-env:
-  DOTNET_VERSION: '8.0.x'
-  PROJECT_NAME: EcommerceApp.Api
-  PROJECT_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
-  TEST_PROJECT_PATH: EcommerceApp/EcommerceApp.Tests/EcommerceApp.Tests.csproj
-  PACKAGE_OUTPUT_DIRECTORY: nuget_packages
-
+name: EcommerceApp.Api - Release NuGet Package to GitHub Packages
 
 on:
   push:
-    branches:
-      - main  # Se activa cuando haces push a la rama main
-  workflow_dispatch: # Te permite ejecutarlo manualmente también
+    tags:
+      - 'v*' 
+
+env:
+  PROJECT_PATH: EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj
+  PACKAGE_ID: EcommerceApp.Api                     
+  DOTNET_VERSION: '8.0.x'                     
 
 jobs:
-  build-test-publish-release:
-    name: Build, Test, Publish Bank Package to Daleskadf Personal Feed
+  release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write 
+      contents: write
       packages: write 
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Restore dependencies
-      run: dotnet restore ${{ env.PROJECT_PATH }} && dotnet restore ${{ env.TEST_PROJECT_PATH }}
+      - name: Extract version from tag
+        id: version_extractor
+        run: echo "PACKAGE_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
 
-    - name: Run Unit Tests
-      run: dotnet test ${{ env.TEST_PROJECT_PATH }} --no-restore --logger trx
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECT_PATH }}
 
-    - name: Build project
-      run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
+      - name: Build the project
+        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release -p:Version=${{ env.PACKAGE_VERSION }} --no-restore
 
-    - name: Get Package Version from .csproj
-      id: package_info
-      run: |
-        VERSION=$(grep -oP '(?<=<Version>).*(?=</Version>)' ${{ env.PROJECT_PATH }} | head -n 1)
-        if [ -z "$VERSION" ]; then
-          echo "Error: No se pudo extraer la versión del archivo ${{ env.PROJECT_PATH }}"
-          exit 1
-        fi
-        echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
-        echo "version_tag=v$VERSION" >> $GITHUB_ENV 
-        echo "Versión del paquete leída del .csproj: $VERSION"
+      - name: Pack the NuGet package
+        id: pack
+        run: dotnet pack ${{ env.PROJECT_PATH }} --configuration Release -p:Version=${{ env.PACKAGE_VERSION }} --no-build -o ./nuget-output
 
-    - name: Create NuGet Package
-      run: |
-        echo "Empaquetando ${{ env.PROJECT_NAME }} con versión: ${{ env.PACKAGE_VERSION }}"
-        dotnet pack ${{ env.PROJECT_PATH }} \
-          -c Release \
-          --no-build \
-          -o ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
-          
-    - name: Setup NuGet Source for Your Personal GitHub Packages (Daleskadf)
-      run: |
-        # Reemplaza 'Daleskadf' con tu nombre de usuario real si es diferente.
-        PERSONAL_NUGET_URL="https://nuget.pkg.github.com/Daleskadf/index.json" 
-        echo "Configurando NuGet source para el feed personal: $PERSONAL_NUGET_URL"
-        
-        # Comando completo en una sola línea
-        dotnet nuget add source "$PERSONAL_NUGET_URL" --name "github-daleskadf-feed" --username "Daleskadf" --password "${{ secrets.GH_TOKEN }}" --store-password-in-clear-text
+      - name: Publish package to GitHub Packages
+        run: |
+          dotnet nuget push ./nuget-output/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg \
+            --skip-duplicate \
+            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --api-key ${{ secrets.GH_TOKEN }}
 
-    # --- ESTE ES EL PASO QUE FALTABA ---
-    - name: Publish NuGet Package to Your Personal GitHub Packages (Daleskadf)
-      run: |
-        echo "Intentando publicar el paquete en el feed de Daleskadf..."
-        dotnet nuget push "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg" \
-          --api-key "${{ secrets.GH_TOKEN }}" \
-          --source "github-daleskadf-feed" \
-          --skip-duplicate
-    # --- FIN DEL PASO QUE FALTABA ---
-
-    - name: Create GitHub Release
-      uses: ncipollo/release-action@v1
-      with:
-        tag: ${{ env.version_tag }} 
-        name: "Release ${{ env.version_tag }} (${{ env.PROJECT_NAME }})"
-        body: |
-          Release del paquete ${{ env.PROJECT_NAME }} versión ${{ env.PACKAGE_VERSION }}.
-          El código fuente está en ${{ github.server_url }}/${{ github.repository }}.
-          El paquete NuGet ha sido publicado en el feed personal de Daleskadf.
-          Contiene el archivo NuGet generado.
-        artifacts: "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/${{ env.PROJECT_NAME }}.${{ env.PACKAGE_VERSION }}.nupkg"
-        token: "${{ secrets.GH_TOKEN }}" 
-        allowUpdates: true
-
-
-
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }} 
+          body: "Release of API version ${{ env.PACKAGE_VERSION }}. See CHANGELOG.md for details." 
+          files: ./nuget-output/${{ env.PACKAGE_ID }}.${{ env.PACKAGE_VERSION }}.nupkg
