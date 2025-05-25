@@ -22,7 +22,7 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Run Unit Tests
-      run: dotnet test EcommerceApp/EcommerceApp.Api.Tests/EcommerceApp.Api.Tests.csproj --logger trx 
+      run: dotnet test EcommerceApp/EcommerceApp.Tests/EcommerceApp.Tests.csproj --logger trx 
 
     - name: Build project
       run: dotnet build EcommerceApp/EcommerceApp.Api/EcommerceApp.Api.csproj -c Release 
